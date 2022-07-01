@@ -1,0 +1,73 @@
+{
+  "name": "view-graph",
+  "version": "0.0.0",
+  "description": "Directed graphs render",
+  "author": "Denis Sumbaev @sumbad",
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.es.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf ./lib && rollup -c && node ./scripts/.make-lib",
+    "dev": "concurrently \"npm:dev:start\" \"npm:dev:watch\"",
+    "dev:watch": "rollup -c -w",
+    "dev:start": "browser-sync 'www' -w --port 8082 --no-open",
+    "dev:build": "NODE_ENV=development rollup -c",
+    "start": "node ./www/app",
+    "prepublishOnly": "node scripts/prepublish.js && npm run build",
+    "release": "RELEASE_MODE=true npm publish ./lib",
+    "release:next": "npm publish ./lib --tag next",
+    "test": "rm -fr ./coverage && npm run dev:build && playwright test && nyc report --reporter=html --reporter=text",
+    "test:ci": "CI=true npm run dev:build && playwright test && nyc report --reporter=lcov",
+    "test:report": "open ./coverage/index.html",
+    "test:debug": "PWDEBUG=1 npm run test"
+  },
+  "keywords": [
+    "web component",
+    "graph",
+    "render"
+  ],
+  "peerDependencies": {
+    "lit-html": "2.x"
+  },
+  "dependencies": {
+    "dagre": "0.8.5"
+  },
+  "devDependencies": {
+    "@babel/core": "7.18.5",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "7.17.12",
+    "@babel/plugin-proposal-optional-chaining": "7.17.12",
+    "@babel/preset-env": "7.18.2",
+    "@playwright/test": "1.22.2",
+    "@rollup/plugin-babel": "5.3.1",
+    "@rollup/plugin-commonjs": "22.0.0",
+    "@rollup/plugin-json": "4.1.0",
+    "@rollup/plugin-node-resolve": "13.3.0",
+    "@rollup/plugin-replace": "4.0.0",
+    "@types/dagre": "0.7.47",
+    "@types/node": "18.0.0",
+    "@web-companions/gfc": "^1.2.0-develop.0",
+    "@web-companions/h": "^0.1.0-develop.2",
+    "babel-plugin-transform-jsx-to-tt": "0.4.0",
+    "browser-sync": "2.27.10",
+    "concurrently": "7.2.2",
+    "fs-extra": "10.1.0",
+    "lit-html": "2.2.6",
+    "nyc": "15.1.0",
+    "postcss": "8.4.14",
+    "postcss-import": "14.1.0",
+    "rollup": "2.75.6",
+    "rollup-plugin-analyzer": "4.0.0",
+    "rollup-plugin-minify-html-literals": "1.2.6",
+    "rollup-plugin-minify-tagged-css-template": "0.0.2",
+    "rollup-plugin-postcss": "4.0.2",
+    "rollup-plugin-terser": "7.0.2",
+    "rollup-plugin-typescript2": "0.32.1",
+    "sass": "1.52.3",
+    "tslib": "2.4.0",
+    "typescript": "4.7.3",
+    "v8-to-istanbul": "9.0.0"
+  }
+}

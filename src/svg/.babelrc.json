@@ -1,0 +1,38 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-transform-jsx-to-tt",
+      {
+        "tag": "svg",
+        "import": {
+          "module": "lit-html",
+          "export": "svg"
+        },
+        "attributes": [
+          {
+            "prefix": "",
+            "attributes": [
+              "viewBox",
+              "transform",
+              "points",
+              "markerStart",
+              "markerEnd",
+              "points",
+              "fill",
+              "stroke",
+              "strokeWidth",
+              "d",
+              "width",
+              "height",
+              "x",
+              "y"
+            ]
+          },
+          {
+            "preset": "lit-html"
+          }
+        ]
+      }
+    ]
+  ]
+}

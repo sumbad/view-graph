@@ -1,0 +1,93 @@
+{
+  "nodes": [
+    {
+      "id": "Node 1",
+      "label": "Node 1"
+    },
+    {
+      "id": "Node 2",
+      "label": "Node 2"
+    },
+    {
+      "id": "Node 3",
+      "label": "Node 3"
+    },
+    {
+      "id": "Node 4",
+      "label": "Node 4"
+    },
+    {
+      "id": "Node 4",
+      "label": "Node 4"
+    },
+    {
+      "id": "Node 5",
+      "label": "Node 5"
+    },
+    {
+      "id": "Node 6",
+      "label": "Node 6"
+    },
+    {
+      "id": "Node 7",
+      "label": "Node 7"
+    }
+  ],
+  "edges": [
+    {
+      "from": "Node 1",
+      "to": "Node 2",
+      "label": "Node 1 -> Node 2"
+    },
+    {
+      "from": null,
+      "to": "Node 1",
+      "label": null
+    },
+    {
+      "from": "Node 2",
+      "to": "Node 3",
+      "label": "Node 2 -> Node 3"
+    },
+    {
+      "from": null,
+      "to": "Node 2",
+      "label": "-> Node 2"
+    },
+    {
+      "from": "Node 3",
+      "to": "Node 4",
+      "label": "Node 3 -> Node 4"
+    },
+    {
+      "from": "Node 3",
+      "to": "Node 4",
+      "label": "Node 3 -> Node 4"
+    },
+    {
+      "from": "Node 3",
+      "to": "Node 5",
+      "label": "Node 3 -> Node 5"
+    },
+    {
+      "from": "Node 3",
+      "to": "Node 6",
+      "label": "Node 3 -> Node 6"
+    },
+    {
+      "from": null,
+      "to": "Node 3",
+      "label": "-> Node 3"
+    },
+    {
+      "from": null,
+      "to": "Node 4",
+      "label": "-> Node 4"
+    },
+    {
+      "from": "Node 4",
+      "to": "Node 7",
+      "label": "Node 4 -> Node 7"
+    }
+  ]
+}
