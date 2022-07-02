@@ -7,7 +7,7 @@
  */
 import React, { useRef, useEffect } from 'react';
 import { elementToReact } from '@web-companions/react-adapter';
-import { viewGraphElement } from '..';
+import { viewGraphElement } from '../viewGraph.element';
 import { EdgeStyle, GraphData, NodeStyle } from '../typings/graph.type';
 
 const ViewGraphElementReact = viewGraphElement('view-graph').adapter(elementToReact);

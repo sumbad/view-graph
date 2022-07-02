@@ -6,7 +6,9 @@
     "allowJs": false,
     "inlineSources": true,
     "declaration": true,
-    "rootDir": "src",
+    "declarationDir": "./lib",
+    "rootDir": "./src",
+    "outDir": "./lib",
     "strict": true,
     "esModuleInterop": true,
     "jsx": "preserve"

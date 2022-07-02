@@ -30,6 +30,17 @@ const plug = {
   resolve: resolve(),
   ts: typescriptPlugin({
     tsconfig: `./tsconfig.${production ? 'prod' : 'dev'}.json`,
+    useTsconfigDeclarationDir: true,
+  }),
+  ts_skip_dts: typescriptPlugin({
+    tsconfig: `./tsconfig.${production ? 'prod' : 'dev'}.json`,
+    useTsconfigDeclarationDir: true,
+    tsconfigOverride: {
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+      },
+    },
   }),
   babel: babel({
     babelHelpers: 'bundled',
@@ -49,8 +60,8 @@ const plug = {
         // minifyOptions: {
         //   minifyCSS: false
         // },
-        shouldMinifyCSS: () => false
-      }
+        shouldMinifyCSS: () => false,
+      },
     }),
     minifyTaggedCSSTemplate({
       parserOptions: {
@@ -64,18 +75,14 @@ const plug = {
         ],
       },
     }),
-    terser(),    
-  ]
+    terser(),
+  ],
 };
 
-const external = [/lit-html/, 'react', '@web-companions/react-adapter'];
-
-
-export const dev = () => ({
+const DEV = {
   input: './www/src/index.tsx',
   output: {
     dir: './www',
-    // file: 'index.js',
     format: 'iife', // immediately-invoked function expression — suitable for <script> tags
     sourcemap: 'inline',
     sourcemapPathTransform: (relativeSourcePath, sourcemapPath) => {
@@ -92,12 +99,12 @@ export const dev = () => ({
     plug.babel,
     plug.postcss,
   ],
-});
+};
 
-export const prod = (input, file) => ({
-  input,
+const PROD = {
+  input: './src/index.ts',
   output: {
-    file,
+    file: './lib/index.es.js',
     format: 'es',
     sourcemap: true,
   },
@@ -109,39 +116,55 @@ export const prod = (input, file) => ({
     plug.ts,
     plug.babel,
     plug.postcss,
-    ...plug.minify
+    ...plug.minify,
     // visualizer(),
   ],
   // indicate which modules should be treated as external
-  external,
-});
+  external: [/lit-html/, 'react', '@web-companions/react-adapter'],
+};
 
-export const prodIife = (input, file) => ({
-  input,
+const PROD_IIFE = {
+  ...PROD,
   output: {
-    file,
+    file: './lib/index.js',
     format: 'iife',
-    name: 'LoadingProgressBar',
+    name: 'ViewGraph',
     sourcemap: true,
   },
   plugins: [
-    plug.replace,
+    plug.replace, //
     plug.resolve,
     plug.commonjs,
     plug.json,
-    plug.ts,
+    plug.ts_skip_dts,
     plug.babel,
     plug.postcss,
-    ...plug.minify
+    ...plug.minify,
+  ],
+  external: ['react', '@web-companions/react-adapter'],
+};
+
+export const PROD_REACT_ADAPTER = {
+  input: './src/adapters/view-graph-react.tsx',
+  output: [
+    {
+      file: './lib/adapters/view-graph-react.jsx',
+      format: 'es',
+      sourcemap: true,
+    },
+  ],
+  plugins: [
+    plug.replace, //
+    plug.resolve,
+    plug.commonjs,
+    plug.json,
+    plug.ts_skip_dts,
+    plug.babel,
+    plug.postcss,
+    ...plug.minify,
   ],
   // indicate which modules should be treated as external
-  external,
-});
+  external: [/lit-html/, 'react', '@web-companions/react-adapter'],
+};
 
-export default production
-  ? [
-      prod('./src/index.tsx', './lib/index.es.js'),
-      prodIife('./src/index.tsx', './lib/index.js'),
-      prod('./src/adapters/view-graph-react.tsx', './lib/adapters/view-graph-react.jsx'),
-    ]
-  : [dev()];
+export default production ? [PROD, PROD_IIFE, PROD_REACT_ADAPTER] : [DEV];

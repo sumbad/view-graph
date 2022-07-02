@@ -17,10 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
-## [[0.0.2](https://github.com/sumbad/view-graph/releases/tag/v0.0.2)] - 2022-07-02
+## [[0.0.2 - 0.0.3](https://github.com/sumbad/view-graph/releases/tag/v0.0.3)] - 2022-07-02
 
 ### Added
-  - Create a wrapper component for React
+  - Create a wrapper component for React.
+### Fixed
+  - Export types according to available modules in directories.
+  - Return ViewGraph object inside IIFE module.
 
 ## [[0.0.1](https://github.com/sumbad/view-graph/releases/tag/v0.0.1)] - 2022-07-01
 
