@@ -68,8 +68,9 @@ export const graphNode = NG<IGraphProps>(function* (params) {
     let Edges: Partial<SVGElement>[] = [];
 
     params.nodes.forEach((value) => {
+      // TODO: use spread
       Nodes.push(
-        <Node // TODO: use spread
+        <Node
           key={value.key}
           cx={value.cx}
           cy={value.cy}
@@ -82,7 +83,8 @@ export const graphNode = NG<IGraphProps>(function* (params) {
 
     Edges = params.edges.map((value) => {
       return (
-        <Edge // TODO: use spread
+        // TODO: use spread
+        <Edge
           key={value.key}
           points={value.points}
           label={value.label}
@@ -94,12 +96,14 @@ export const graphNode = NG<IGraphProps>(function* (params) {
       );
     });
 
+    // TODO: move styles to adopted style sheet; add "cursor: grabbing" for active modification
     params = (yield renderNode(
       <svg
         id="graph"
         ref={ref(svgRef)}
         viewBox={viewBox}
         style={css`
+          /* clean-css ignore:start */
           position: absolute;
           overflow: visible;
           top: 1%;
@@ -112,7 +116,8 @@ export const graphNode = NG<IGraphProps>(function* (params) {
 
           cursor: grab;
           user-select: none;
-        `} // TODO: move to adopted style sheet; add "cursor: grabbing" for active modification
+          /* clean-css ignore:end */
+        `}
       >
         <g>
           <defs>

@@ -15,6 +15,8 @@ const defaultNodeStyle: NodeStyle = {
         </svg>`,
 };
 
+const Graph = graphNode();
+
 export const viewGraphElement = EG({
   props: {
     data: p.req<GraphData>(),
@@ -30,8 +32,6 @@ export const viewGraphElement = EG({
 
   let graphData = params.data;
   let graph = computeGraph(graphData, nodeStyle);
-
-  let Graph: ReturnType<typeof graphNode> | undefined;
 
   ////////////////////
 
@@ -125,6 +125,7 @@ export const viewGraphElement = EG({
     if (mapElement == null) {
       return;
     }
+
     destroy();
 
     mapElement.addEventListener('mousedown', handleMousedownEvent);
@@ -134,6 +135,10 @@ export const viewGraphElement = EG({
   };
 
   const destroy = () => {
+    if (mapElement == null) {
+      return;
+    }
+
     mapElement.removeEventListener('wheel', handleWheelEvent);
     mapElement.removeEventListener('mousedown', handleMousedownEvent);
     mapElement.removeEventListener('mousemove', handleMousemoveEvent);
@@ -141,9 +146,6 @@ export const viewGraphElement = EG({
   };
 
   requestAnimationFrame(() => {
-    const graphPortal = { current: graphNodeRef.value! };
-    Graph = graphNode(graphPortal);
-
     mapElement = graphNodeRef.value!;
     initPanZoom();
 
@@ -160,38 +162,38 @@ export const viewGraphElement = EG({
       }
 
       params = yield render(
-        <>
-          <div
-            style={css`
-              transition: opacity 0.75s ease, width 0.75s ease;
-              display: block;
-              overflow: hidden;
-              border: 1px solid #ccc;
-              position: absolute;
-              top: 10px;
-              bottom: 10px;
-              left: 10px;
-              right: 70px;
-              background: #fff;
-              width: calc(100% - 81px);
-              font-family: sans-serif;
-            `}
-            id="scheme-container"
-            class="fullscreen"
-            ref={ref(graphNodeRef)}
-          >
-            {Graph != null && graph != null && (
-              <Graph
-                nodes={graph.nodes}
-                edges={graph.edges}
-                isCustomNavLib={true}
-                nodeStyle={nodeStyle}
-                edgeStyle={params.edgeStyle ?? 'polyline'}
-                transform={transform}
-              ></Graph>
-            )}
-          </div>
-        </>,
+        <div
+          style={css`
+            position: absolute;
+            transition: opacity 0.75s ease, width 0.75s ease;
+            display: block;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            top: 10px;
+            bottom: 10px;
+            left: 10px;
+            right: 70px;
+            background: #fff;
+            width: calc(100% - 81px);
+            font-family: sans-serif;
+          `}
+          id="scheme-container"
+          class="fullscreen"
+          ref={ref(graphNodeRef)}
+        >
+          {graph != null ? (
+            <Graph
+              nodes={graph.nodes}
+              edges={graph.edges}
+              isCustomNavLib={true}
+              nodeStyle={nodeStyle}
+              edgeStyle={params.edgeStyle ?? 'polyline'}
+              transform={transform}
+            ></Graph>
+          ) : (
+            'Computing...'
+          )}
+        </div>,
         $
       );
     }

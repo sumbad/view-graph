@@ -5,12 +5,14 @@ import postcss from 'rollup-plugin-postcss';
 import babel from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
-import analyze from 'rollup-plugin-analyzer';
-import minifyHTML from 'rollup-plugin-minify-html-literals';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+
+import minifyHTML from 'rollup-plugin-minify-html-literals';
 import minifyTaggedCSSTemplate from 'rollup-plugin-minify-tagged-css-template';
 const terser = require('rollup-plugin-terser').terser;
+
+import { visualizer } from 'rollup-plugin-visualizer';
 
 import { DEFAULT_EXTENSIONS } from '@babel/core';
 
@@ -41,7 +43,33 @@ const plug = {
   }),
   commonjs: commonjs(), // convert CommonJS modules to ES6 (for dagre)
   json: json(), // convert CommonJS modules to ES6 (for dagre)
+  minify: [
+    minifyHTML({
+      options: {
+        // minifyOptions: {
+        //   minifyCSS: false
+        // },
+        shouldMinifyCSS: () => false
+      }
+    }),
+    minifyTaggedCSSTemplate({
+      parserOptions: {
+        sourceType: 'module', // treat files as ES6 modules
+        plugins: [
+          'syntax-dynamic-import', // handle dynamic imports
+          [
+            'decorators', // use decorators proposal plugin
+            { decoratorsBeforeExport: true },
+          ],
+        ],
+      },
+    }),
+    terser(),    
+  ]
 };
+
+const external = [/lit-html/, 'react', '@web-companions/react-adapter'];
+
 
 export const dev = () => ({
   input: './www/src/index.tsx',
@@ -81,24 +109,11 @@ export const prod = (input, file) => ({
     plug.ts,
     plug.babel,
     plug.postcss,
-    minifyHTML(),
-    minifyTaggedCSSTemplate({
-      parserOptions: {
-        sourceType: 'module', // treat files as ES6 modules
-        plugins: [
-          'syntax-dynamic-import', // handle dynamic imports
-          [
-            'decorators', // use decorators proposal plugin
-            { decoratorsBeforeExport: true },
-          ],
-        ],
-      },
-    }),
-    terser(),
-    analyze(),
+    ...plug.minify
+    // visualizer(),
   ],
   // indicate which modules should be treated as external
-  external: ['lit-html'],
+  external,
 });
 
 export const prodIife = (input, file) => ({
@@ -117,23 +132,16 @@ export const prodIife = (input, file) => ({
     plug.ts,
     plug.babel,
     plug.postcss,
-    minifyHTML(),
-    minifyTaggedCSSTemplate({
-      parserOptions: {
-        sourceType: 'module', // treat files as ES6 modules
-        plugins: [
-          'syntax-dynamic-import', // handle dynamic imports
-          [
-            'decorators', // use decorators proposal plugin
-            { decoratorsBeforeExport: true },
-          ],
-        ],
-      },
-    }),
-    terser(),
+    ...plug.minify
   ],
   // indicate which modules should be treated as external
-  external: ['lit-html'],
+  external,
 });
 
-export default production ? [prod('./src/index.tsx', './lib/index.es.js'), prodIife('./src/index.tsx', './lib/index.js')] : [dev()];
+export default production
+  ? [
+      prod('./src/index.tsx', './lib/index.es.js'),
+      prodIife('./src/index.tsx', './lib/index.js'),
+      prod('./src/adapters/view-graph-react.tsx', './lib/adapters/view-graph-react.jsx'),
+    ]
+  : [dev()];

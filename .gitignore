@@ -114,3 +114,4 @@ www/**/*.js.map
 
 !www/app.js
 
+stats.html
