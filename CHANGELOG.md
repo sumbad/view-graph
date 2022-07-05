@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
-## [[0.0.4](https://github.com/sumbad/view-graph/releases/tag/v0.0.4)] - 2022-07-05
+## [[0.0.4 - 0.0.5](https://github.com/sumbad/view-graph/releases/tag/v0.0.5)] - 2022-07-05
 
 ### Fixed
   - Calculate a graph's viewBox dependently on IntersectionObserver for right work with VDOM

@@ -75,13 +75,16 @@
   },
   "files": [
     "/.{d.ts,d.ts.map,js,js.map,jsx,jsx.map}",
-    "/adapters.{d.ts,d.ts.map,js,js.map,jsx,jsx.map}"
+    "/adapters/"
   ],
   "exports": {
     ".": {
       "default": "./index.js"
     },
-    "./adapters/view-graph/view-graph-react": {
+    "./adapters/view-graph-react": {
+      "default": "./adapters/view-graph-react.js"
+    },
+    "./adapters/view-graph-react.js": {
       "default": "./adapters/view-graph-react.js"
     }
   }
