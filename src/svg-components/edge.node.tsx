@@ -1,7 +1,7 @@
 import { NG } from '@web-companions/gfc';
 import { css } from '@web-companions/h';
 import { ref, createRef, Ref } from 'lit-html/directives/ref.js';
-import { EdgeStyle, GraphEdge } from '../typings/graph.type';
+import { EdgeStyle, GraphEdge } from '../@types/graph.type';
 import { svgPath, bezierCommand } from '../utils/path.util';
 import { renderNode } from '../utils/renderNode.directive';
 

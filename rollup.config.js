@@ -148,7 +148,7 @@ export const PROD_REACT_ADAPTER = {
   input: './src/adapters/view-graph-react.tsx',
   output: [
     {
-      file: './lib/adapters/view-graph-react.jsx',
+      file: './lib/adapters/view-graph-react.js',
       format: 'es',
       sourcemap: true,
     },
@@ -164,7 +164,13 @@ export const PROD_REACT_ADAPTER = {
     ...plug.minify,
   ],
   // indicate which modules should be treated as external
-  external: [/lit-html/, 'react', '@web-companions/react-adapter'],
+  external: [/lit-html/, 'react'],
 };
 
-export default production ? [PROD, PROD_IIFE, PROD_REACT_ADAPTER] : [DEV];
+export default production
+  ? [
+      PROD, 
+      PROD_IIFE,
+      PROD_REACT_ADAPTER,
+    ]
+  : [DEV];

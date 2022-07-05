@@ -2,7 +2,7 @@ import { EG } from '@web-companions/gfc';
 import { viewGraphElement } from '../../src';
 import { render } from 'lit-html';
 import { createRef, ref } from 'lit-html/directives/ref.js';
-import { NodeStyle } from '../../src/typings/graph.type';
+import { NodeStyle } from '../../src/@types/graph.type';
 
 import graphData from '../graphData.json';
 

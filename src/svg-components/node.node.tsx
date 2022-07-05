@@ -1,6 +1,6 @@
 import { NG } from '@web-companions/gfc';
 import { css } from '@web-companions/h';
-import { GraphNode } from '../typings/graph.type';
+import { GraphNode } from '../@types/graph.type';
 import { renderNode } from '../utils/renderNode.directive';
 
 export const nodeNode = NG<GraphNode>(function* (params) {

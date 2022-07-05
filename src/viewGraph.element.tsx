@@ -3,8 +3,8 @@ import { css } from '@web-companions/h';
 import { render } from 'lit-html';
 import { ref, createRef } from 'lit-html/directives/ref.js';
 
-import { graphNode } from './svg/graph.node';
-import { EdgeStyle, GraphData, NodeStyle, Translation } from './typings/graph.type';
+import { graphNode } from './svg-components/graph.node';
+import { EdgeStyle, GraphData, NodeStyle, Translation } from './@types/graph.type';
 import { computeGraph } from './utils/graph.util';
 
 const defaultNodeStyle: NodeStyle = {
@@ -164,28 +164,21 @@ export const viewGraphElement = EG({
       params = yield render(
         <div
           style={css`
-            position: absolute;
-            transition: opacity 0.75s ease, width 0.75s ease;
-            display: block;
+            /* position: absolute; */
+            /* display: block; */
+            transition: opacity 0.75s ease,width 0.75s ease;
             overflow: hidden;
-            border: 1px solid #ccc;
-            top: 10px;
-            bottom: 10px;
-            left: 10px;
-            right: 70px;
-            background: #fff;
-            width: calc(100% - 81px);
             font-family: sans-serif;
+            height: 100%;
+            width: 100%;
           `}
-          id="scheme-container"
-          class="fullscreen"
+          id="graph-container"
           ref={ref(graphNodeRef)}
         >
           {graph != null ? (
             <Graph
               nodes={graph.nodes}
               edges={graph.edges}
-              isCustomNavLib={true}
               nodeStyle={nodeStyle}
               edgeStyle={params.edgeStyle ?? 'polyline'}
               transform={transform}

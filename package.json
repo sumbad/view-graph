@@ -72,5 +72,17 @@
     "tslib": "2.4.0",
     "typescript": "4.7.3",
     "v8-to-istanbul": "9.0.0"
+  },
+  "files": [
+    "/.{d.ts,d.ts.map,js,js.map,jsx,jsx.map}",
+    "/adapters.{d.ts,d.ts.map,js,js.map,jsx,jsx.map}"
+  ],
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./adapters/view-graph/view-graph-react": {
+      "default": "./adapters/view-graph-react.js"
+    }
   }
 }

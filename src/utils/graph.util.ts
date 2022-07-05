@@ -1,5 +1,5 @@
 import * as dagre from 'dagre';
-import { GraphData, GraphEdge, GraphNode } from '../typings/graph.type';
+import { GraphData, GraphEdge, GraphNode } from '../@types/graph.type';
 
 export function computeGraph(
   data: GraphData,
