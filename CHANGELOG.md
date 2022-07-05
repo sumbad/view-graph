@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
+## [[0.0.4](https://github.com/sumbad/view-graph/releases/tag/v0.0.4)] - 2022-07-05
+
+### Fixed
+  - Calculate a graph's viewBox dependently on IntersectionObserver for right work with VDOM
+
+
 ## [[0.0.2 - 0.0.3](https://github.com/sumbad/view-graph/releases/tag/v0.0.3)] - 2022-07-02
 
 ### Added
@@ -24,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
   - Export types according to available modules in directories.
   - Return ViewGraph object inside IIFE module.
+
 
 ## [[0.0.1](https://github.com/sumbad/view-graph/releases/tag/v0.0.1)] - 2022-07-01
 
