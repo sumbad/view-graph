@@ -6,6 +6,12 @@ export interface GraphData {
 export interface GraphDataNode {
   id: string;
   label: string;
+  info?: GraphDataNodeInfoItem[];
+}
+
+export interface GraphDataNodeInfoItem {
+  key: string;
+  value: string;
 }
 
 export interface GraphDataEdge {
@@ -44,8 +50,9 @@ export type NodeStyle = {
   svg: string;
 };
 
-
 export interface Translation {
   x: number;
   y: number;
 }
+
+export type ToggleTooltip = (isVisible: boolean, nodeKey: string) => void;

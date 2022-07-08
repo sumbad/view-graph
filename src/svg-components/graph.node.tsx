@@ -2,7 +2,7 @@ import { NG } from '@web-companions/gfc';
 import { css } from '@web-companions/h';
 import { ref, createRef, Ref } from 'lit-html/directives/ref.js';
 import { unsafeSVG } from 'lit-html/directives/unsafe-svg.js';
-import { EdgeStyle, GraphEdge, GraphNode, NodeStyle } from '../@types/graph.type';
+import { EdgeStyle, GraphEdge, GraphNode, NodeStyle, ToggleTooltip } from '../@types/graph.type';
 import { renderNode } from '../utils/renderNode.directive';
 import { edgeNode } from './edge.node';
 import { nodeNode } from './node.node';
@@ -15,6 +15,8 @@ interface IGraphProps {
   nodeStyle: NodeStyle;
 
   transform: string;
+
+  toggleTooltip: ToggleTooltip;
 }
 
 const Edge = edgeNode();
@@ -66,7 +68,17 @@ export const graphNode = NG<IGraphProps>(function* (params) {
 
       params.nodes.forEach((value) => {
         // TODO: use spread
-        Nodes.push(<Node key={value.key} cx={value.cx} cy={value.cy} height={value.height} width={value.width} label={value.label} />);
+        Nodes.push(
+          <Node
+            toggleTooltip={params.toggleTooltip}
+            key={value.key}
+            cx={value.cx}
+            cy={value.cy}
+            height={value.height}
+            width={value.width}
+            label={value.label}
+          />
+        );
       });
 
       Edges = params.edges.map((value) => {
@@ -85,7 +97,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
       });
 
       // TODO: move styles to adopted style sheet; add "cursor: grabbing" for active modification
-      params = (yield renderNode(
+      params = yield renderNode(
         <svg
           id="graph"
           ref={ref(svgRef)}
@@ -94,17 +106,12 @@ export const graphNode = NG<IGraphProps>(function* (params) {
             /* clean-css ignore:start */
             /* position: absolute; */
             overflow: visible;
-            top: 1%;
-            left: 1%;
-            width: 98%;
-            height: 98%;
-
-            padding: 1rem;
+            width: 100%;
+            height: 100%;
 
             transform-origin: 0px 0px;
             transform: ${params.transform};
 
-            cursor: grab;
             user-select: none;
             /* clean-css ignore:end */
           `}
@@ -127,7 +134,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
           </g>
         </svg>,
         this
-      )) as IGraphProps; // TODO: fix return type
+      )
     }
   } finally {
     io.disconnect();

@@ -13,15 +13,6 @@ const ViewGraphElement = viewGraphElement('view-graph');
  */
 EG()(function* () {
   const viewGraphElementRef = createRef<HTMLElement>();
-
-  // requestIdleCallback(() => {
-  //   // just grab a DOM element
-  //   const element = viewGraphElementRef.value!.shadowRoot!.querySelector('#graph') as SVGElement;
-
-  //   // And pass it to panzoom
-  //   panzoom(element);
-  // });
-
   let nodeStyle: NodeStyle | undefined = undefined;
 
   const object = document.querySelector('#svg') as HTMLObjectElement;
@@ -48,7 +39,7 @@ EG()(function* () {
           <ViewGraphElement
             ref={ref(viewGraphElementRef)}
             data={graphData}
-            edgeStyle={'curve'}
+            edgeStyle={'polyline'}
             nodeStyle={nodeStyle}
           ></ViewGraphElement>
         </>,

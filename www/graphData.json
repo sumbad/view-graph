@@ -2,7 +2,21 @@
   "nodes": [
     {
       "id": "Node 1",
-      "label": "Node 1"
+      "label": "Node 1",
+      "info": [
+        {
+          "key": "Agent",
+          "value": "Node 1 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "1:58:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "193615C831D3FC58B5CE07FCDBC48F1209"
+        }
+      ]
     },
     {
       "id": "Node 2",
@@ -10,11 +24,21 @@
     },
     {
       "id": "Node 3",
-      "label": "Node 3"
-    },
-    {
-      "id": "Node 4",
-      "label": "Node 4"
+      "label": "Node 3",
+      "info": [
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209"
+        }
+      ]
     },
     {
       "id": "Node 4",
@@ -22,7 +46,21 @@
     },
     {
       "id": "Node 5",
-      "label": "Node 5"
+      "label": "Node 5",
+      "info": [
+        {
+          "key": "Agent",
+          "value": "Node 5 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "10:18:00.000"
+        },
+        {
+          "key": "X-Trace",
+          "value": "4234615C831234C58B5CE07FCDBC48F1209"
+        }
+      ]
     },
     {
       "id": "Node 6",
@@ -30,7 +68,21 @@
     },
     {
       "id": "Node 7",
-      "label": "Node 7"
+      "label": "Node 7",
+      "info": [
+        {
+          "key": "Agent",
+          "value": "Node 5 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "10:18:00.000"
+        },
+        {
+          "key": "X-Trace",
+          "value": "4234615C831234C58B5CE07FCDBC48F1209"
+        }
+      ]
     }
   ],
   "edges": [
@@ -40,7 +92,7 @@
       "label": "Node 1 -> Node 2"
     },
     {
-      "from": null,
+      "from": "null_1",
       "to": "Node 1",
       "label": null
     },
@@ -50,7 +102,7 @@
       "label": "Node 2 -> Node 3"
     },
     {
-      "from": null,
+      "from": "null_2",
       "to": "Node 2",
       "label": "-> Node 2"
     },

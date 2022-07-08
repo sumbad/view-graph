@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
+## [[0.0.6 - 0.1.0](https://github.com/sumbad/view-graph/releases/tag/v0.0.1)] - 2022-07-08
+
+### Added
+  - Show a tooltip for Nodes with additional information
+
+### Fixed
+  - Resolve a problem with showing a whole graph with paddings
+
+
 ## [[0.0.4 - 0.0.6](https://github.com/sumbad/view-graph/releases/tag/v0.0.6)] - 2022-07-05
 
 ### Fixed

@@ -4,8 +4,9 @@ import { render } from 'lit-html';
 import { ref, createRef } from 'lit-html/directives/ref.js';
 
 import { graphNode } from './svg-components/graph.node';
-import { EdgeStyle, GraphData, NodeStyle, Translation } from './@types/graph.type';
+import { EdgeStyle, GraphData, GraphDataNodeInfoItem, NodeStyle, ToggleTooltip, Translation } from './@types/graph.type';
 import { computeGraph } from './utils/graph.util';
+import { tooltipElement } from './tooltip.element';
 
 const defaultNodeStyle: NodeStyle = {
   width: 100,
@@ -15,6 +16,7 @@ const defaultNodeStyle: NodeStyle = {
         </svg>`,
 };
 
+const TooltipElement = tooltipElement('view-graph-tooltip');
 const Graph = graphNode();
 
 export const viewGraphElement = EG({
@@ -51,6 +53,14 @@ export const viewGraphElement = EG({
   let mapElement: HTMLElement;
 
   let transform = `translate(${defaultTranslation.x}px, ${defaultTranslation.y}px) scale(${defaultZoom})`;
+
+  let isTooltipVisible = false;
+  let tooltipPos = {
+    top: 0,
+    left: 0,
+    pointerOffset: 0,
+  };
+  let tooltipInfo: GraphDataNodeInfoItem[] = [];
 
   const handleWheelEvent = (e: WheelEvent) => {
     e.preventDefault();
@@ -95,6 +105,8 @@ export const viewGraphElement = EG({
 
   const updateTransform = () => {
     transform = `translate(${translation.x}px, ${translation.y}px) scale(${zoom})`;
+
+    isTooltipVisible = false;
 
     this.next();
   };
@@ -145,6 +157,38 @@ export const viewGraphElement = EG({
     mapElement.removeEventListener('mouseup', handleMouseupEvent);
   };
 
+  const toggleTooltip: ToggleTooltip = (isVisible, nodeKey) => {
+    isTooltipVisible = isVisible;
+
+    if (isTooltipVisible) {
+      const node = params.data.nodes.find((it) => it.id === nodeKey)!;
+
+      if (node.info == null || node.info.length === 0) {
+        return;
+      }
+
+      tooltipInfo = node.info ?? [];
+
+      const nodeRect = ($.getElementById(nodeKey)!.firstElementChild as SVGRectElement).getBoundingClientRect();
+
+      let left = nodeRect.x - nodeRect.width;
+      let pointerOffset = nodeRect.width + nodeRect.width / 2;
+
+      if(left < 0) {
+        left = nodeRect.x;
+        pointerOffset = 10;
+      }
+
+      tooltipPos = {
+        left,
+        top: nodeRect.y + nodeRect.height,
+        pointerOffset,
+      };
+    }
+
+    this.next();
+  };
+
   requestAnimationFrame(() => {
     mapElement = graphNodeRef.value!;
     initPanZoom();
@@ -166,15 +210,18 @@ export const viewGraphElement = EG({
           style={css`
             /* position: absolute; */
             /* display: block; */
-            transition: opacity 0.75s ease,width 0.75s ease;
+            transition: opacity 0.75s ease, width 0.75s ease;
             overflow: hidden;
             font-family: sans-serif;
-            height: 100%;
-            width: 100%;
+            height: calc(100% - 2rem);
+            width: calc(100% - 2rem);
+            padding: 1rem;
+            cursor: grab;
           `}
           id="graph-container"
           ref={ref(graphNodeRef)}
         >
+          <TooltipElement isVisible={isTooltipVisible} pos={tooltipPos} info={tooltipInfo}></TooltipElement>
           {graph != null ? (
             <Graph
               nodes={graph.nodes}
@@ -182,6 +229,7 @@ export const viewGraphElement = EG({
               nodeStyle={nodeStyle}
               edgeStyle={params.edgeStyle ?? 'polyline'}
               transform={transform}
+              toggleTooltip={toggleTooltip}
             ></Graph>
           ) : (
             'Computing...'

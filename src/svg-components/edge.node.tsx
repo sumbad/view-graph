@@ -67,7 +67,7 @@ export const edgeNode = NG<IEdgeProps>(function* (params) {
   });
 
   while (true) {
-    params = (yield renderNode(
+    params = yield renderNode(
       <g id={params.key}>
         <defs>
           <marker id={'markerCircle' + params.key} ref={ref(markerCircleRef)}>
@@ -81,7 +81,7 @@ export const edgeNode = NG<IEdgeProps>(function* (params) {
           <polyline
             ref={ref(polylineRef)}
             marker-start={'url(#markerCircle' + params.key + ')'}
-            // marker-end={'url(#markerArrow' + params.key + ')'}
+            marker-end={'url(#markerArrow' + params.key + ')'}
             points={getPath()}
             fill="none"
             stroke={params.stroke}
@@ -120,6 +120,6 @@ export const edgeNode = NG<IEdgeProps>(function* (params) {
         )}
       </g>,
       this
-    )) as IEdgeProps;
+    );
   }
 });

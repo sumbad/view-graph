@@ -36,7 +36,7 @@ export function computeGraph(
     if (value.from !== value.to) {
       g.setEdge(String(value.from), String(value.to), {
         label: value.label,
-        name: value.from + '->' + value.to,
+        key: `${value.from}->${value.to}`.replace(/\s/g, '_'),
         width: 12 * (value.label ?? '').length, // TODO: calculate based on something
         height: 19, // TODO: calculate based on something
         labelpos: 'c',
@@ -73,7 +73,7 @@ export function computeGraph(
     }
 
     return {
-      key: value.v + '->' + value.w,
+      key: edge.key,
       points: edge.points,
       label,
     };
