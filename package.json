@@ -4,10 +4,21 @@
   "description": "Directed graphs render",
   "author": "Denis Sumbaev @sumbad",
   "license": "MIT",
-  "main": "index.js",
-  "module": "index.es.js",
   "publishConfig": {
     "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.es.js",
+      "module": "./index.es.js",
+      "require": "./index.js"
+    },
+    "./adapters/view-graph-react": {
+      "default": "./adapters/view-graph-react.js"
+    },
+    "./adapters/view-graph-react.js": {
+      "default": "./adapters/view-graph-react.js"
+    }
   },
   "scripts": {
     "build": "rm -rf ./lib && rollup -c && node ./scripts/.make-lib",
@@ -49,8 +60,8 @@
     "@rollup/plugin-replace": "4.0.0",
     "@types/dagre": "0.7.47",
     "@types/node": "18.0.0",
-    "@web-companions/gfc": "2.0.0",
-    "@web-companions/h": "0.2.0",
+    "@web-companions/gfc": "2.0.1",
+    "@web-companions/h": "0.2.1",
     "@web-companions/react-adapter": "0.1.4",
     "babel-plugin-transform-jsx-to-tt": "0.4.0",
     "browser-sync": "2.27.10",
@@ -72,16 +83,5 @@
     "tslib": "2.4.0",
     "typescript": "4.7.3",
     "v8-to-istanbul": "9.0.0"
-  },
-  "exports": {
-    ".": {
-      "default": "./index.js"
-    },
-    "./adapters/view-graph-react": {
-      "default": "./adapters/view-graph-react.js"
-    },
-    "./adapters/view-graph-react.js": {
-      "default": "./adapters/view-graph-react.js"
-    }
   }
 }

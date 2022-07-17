@@ -14,12 +14,52 @@ export const tooltipElement = EG({
     info: p.req<GraphDataNodeInfoItem[]>(),
   },
 })(function* (params) {
+  let isVisible = params.isVisible;
+  let isMouseOver = false;
+
+  const hide = (_isVisible: boolean) => {
+    if (!isMouseOver && !_isVisible) {
+      isVisible = _isVisible;
+    }
+
+    this.next();
+  };
+
+  const onMouseEnter = () => {
+    isMouseOver = true;
+  };
+
+  const onMouseLeave = () => {
+    isMouseOver = false;
+    isVisible = false;
+
+    this.next();
+  };
+
+  const preventMoving = (event: MouseEvent) => {
+    event.stopPropagation();
+  }
+
   while (true) {
+    if (!params.isVisible) {
+      setTimeout(() => {
+        hide(params.isVisible);
+      }, 300);
+    } else {
+      isVisible = params.isVisible;
+    }
+
     params = yield render(
       <div
+        onwheel={preventMoving}
+        onmousedown={preventMoving}
+        onmousemove={preventMoving}
+        onmouseup={preventMoving}
+        onmouseenter={onMouseEnter}
+        onmouseleave={onMouseLeave}
         style={css`
           /* clean-css ignore:start */
-          user-select: none;
+          cursor: text;
 
           font-size: 15px;
           position: absolute;
@@ -28,7 +68,7 @@ export const tooltipElement = EG({
 
           top: ${params.pos?.top}px;
           left: ${params.pos?.left}px;
-          visibility: ${params.isVisible ? 'visible' : 'hidden'};
+          visibility: ${isVisible ? 'visible' : 'hidden'};
           display: block;
           opacity: 1;
           /* clean-css ignore:end */
@@ -69,12 +109,18 @@ export const tooltipElement = EG({
             style={css`
               width: 100%;
               text-align: left;
+              white-space: nowrap;
             `}
           >
             {params.info?.map((it) => (
               <tr>
-                <td>
-                  <b>{it.key}</b>
+                <td
+                  style={css`
+                    font-weight: bold;
+                    padding-right: 5px;
+                  `}
+                >
+                  {it.key}
                 </td>
                 <td>{it.value}</td>
               </tr>

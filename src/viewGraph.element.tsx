@@ -169,9 +169,11 @@ export const viewGraphElement = EG({
 
       tooltipInfo = node.info ?? [];
 
+      const viewGraphRect:DOMRect = mapElement.getBoundingClientRect();
       const nodeRect = ($.getElementById(nodeKey)!.firstElementChild as SVGRectElement).getBoundingClientRect();
 
-      let left = nodeRect.x - nodeRect.width;
+      let left = nodeRect.x - viewGraphRect.x - nodeRect.width;
+      let top = nodeRect.y - viewGraphRect.y + nodeRect.height;
       let pointerOffset = nodeRect.width + nodeRect.width / 2;
 
       if(left < 0) {
@@ -181,7 +183,7 @@ export const viewGraphElement = EG({
 
       tooltipPos = {
         left,
-        top: nodeRect.y + nodeRect.height,
+        top,
         pointerOffset,
       };
     }

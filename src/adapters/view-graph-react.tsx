@@ -32,7 +32,7 @@ export function ViewGraphReact(params: Props) {
         viewGraphEl.setAttribute('style', reactCSSPropertyToInlineStyle(params.style));
       }
     }
-  }, [params.style]);
+  }, [params]);
 
   return (
     <div>
