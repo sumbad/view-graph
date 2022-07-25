@@ -3,6 +3,7 @@ import { css } from '@web-companions/h';
 import { ref, createRef, Ref } from 'lit-html/directives/ref.js';
 import { unsafeSVG } from 'lit-html/directives/unsafe-svg.js';
 import { EdgeStyle, GraphEdge, GraphNode, NodeStyle, ToggleTooltip } from '../@types/graph.type';
+import { GRAPH_NODE_DEFAULT_ID } from '../utils/graph.util';
 import { renderNode } from '../utils/renderNode.directive';
 import { edgeNode } from './edge.node';
 import { nodeNode } from './node.node';
@@ -12,7 +13,7 @@ interface IGraphProps {
   edges: GraphEdge[];
 
   edgeStyle: EdgeStyle;
-  nodeStyle: NodeStyle;
+  nodeStyle: Map<string, NodeStyle>;
 
   transform: string;
 
@@ -64,7 +65,16 @@ export const graphNode = NG<IGraphProps>(function* (params) {
       }
 
       const Nodes: Partial<SVGElement>[] = [];
+      const NodesDefs: Partial<SVGDefsElement>[] = [];
       let Edges: Partial<SVGElement>[] = [];
+
+      params.nodeStyle.forEach((it) => {
+        NodesDefs.push(
+          <g x="0" y="0" id={it.id ?? GRAPH_NODE_DEFAULT_ID}>
+            {unsafeSVG(it.svg)}
+          </g>
+        );
+      });
 
       params.nodes.forEach((value) => {
         // TODO: use spread
@@ -77,6 +87,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
             height={value.height}
             width={value.width}
             label={value.label}
+            styleId={value.styleId}
           />
         );
       });
@@ -118,9 +129,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
         >
           <g>
             <defs>
-              <g x="0" y="0" id="graphNode">
-                {unsafeSVG(params.nodeStyle.svg)}
-              </g>
+              {NodesDefs}
               <filter x="0" y="0" width="1" height="1" id="solid">
                 <feFlood flood-color="white" result="bg" />
                 <feMerge>
@@ -134,7 +143,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
           </g>
         </svg>,
         this
-      )
+      );
     }
   } finally {
     io.disconnect();

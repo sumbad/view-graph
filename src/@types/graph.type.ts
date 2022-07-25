@@ -6,6 +6,7 @@ export interface GraphData {
 export interface GraphDataNode {
   id: string;
   label: string;
+  styleId?: string;
   info?: GraphDataNodeInfoItem[];
 }
 
@@ -17,7 +18,7 @@ export interface GraphDataNodeInfoItem {
 export interface GraphDataEdge {
   from: string | null;
   to: string | null;
-  label: string | null;
+  label?: string | null;
 }
 
 export interface GraphNode {
@@ -27,6 +28,7 @@ export interface GraphNode {
   width: number;
   height: number;
   label?: string;
+  styleId?: string;
 }
 
 export interface GraphEdge {
@@ -45,6 +47,7 @@ export interface GraphEdge {
 export type EdgeStyle = 'polyline' | 'curve';
 
 export type NodeStyle = {
+  id?: string;
   width: number;
   height: number;
   svg: string;

@@ -25,7 +25,8 @@
               "width",
               "height",
               "x",
-              "y"
+              "y",
+              "href"
             ]
           },
           {

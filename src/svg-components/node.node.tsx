@@ -1,6 +1,7 @@
 import { NG } from '@web-companions/gfc';
 import { css } from '@web-companions/h';
 import { GraphNode, ToggleTooltip } from '../@types/graph.type';
+import { GRAPH_NODE_DEFAULT_ID } from '../utils/graph.util';
 import { renderNode } from '../utils/renderNode.directive';
 
 export const nodeNode = NG<GraphNode & { toggleTooltip: ToggleTooltip }>(function* (params) {
@@ -16,7 +17,7 @@ export const nodeNode = NG<GraphNode & { toggleTooltip: ToggleTooltip }>(functio
   const onMouseLeave = () => {
     isEntered = false;
     params.toggleTooltip(isEntered, params.key);
-  };
+  };  
 
   while (true) {
     params = yield renderNode(
@@ -27,7 +28,7 @@ export const nodeNode = NG<GraphNode & { toggleTooltip: ToggleTooltip }>(functio
         onmouseleave={onMouseLeave}
       >
         <rect x="0" y="0" width={params.width} height={params.height} opacity="0"></rect>
-        <use x="0" y="0" width={params.width} height={params.height} href="#graphNode" />
+        <use x="0" y="0" width={params.width} height={params.height} href={`#${params.styleId ?? GRAPH_NODE_DEFAULT_ID}`} />
         <text
           x={params.width + 10}
           y="20"

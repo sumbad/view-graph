@@ -13,35 +13,41 @@ const ViewGraphElement = viewGraphElement('view-graph');
  */
 EG()(function* () {
   const viewGraphElementRef = createRef<HTMLElement>();
-  let nodeStyle: NodeStyle | undefined = undefined;
+  let nodeStyle: NodeStyle | NodeStyle[] | undefined;
 
-  const object = document.querySelector('#svg') as HTMLObjectElement;
+  const svg = document.querySelector('#svg') as HTMLObjectElement;
 
   const findSVGElements = () => {
-    const svg = object.contentDocument!.firstChild! as SVGElement;
+    const nodeStyle1svg = svg.contentDocument!.firstChild! as SVGElement;
+    const nodeStyle2svg = nodeStyle1svg.cloneNode(true) as SVGElement;
 
-    nodeStyle = {
-      width: 150,
-      height: 160,
-      svg: svg.innerHTML,
-    };
+    (nodeStyle2svg.firstElementChild! as SVGPathElement).setAttribute('fill', 'red');
+
+    nodeStyle = [
+      {
+        width: 150,
+        height: 160,
+        svg: nodeStyle1svg.innerHTML,
+      },
+      {
+        id: 'selectedNode',
+        width: 150,
+        height: 160,
+        svg: nodeStyle2svg.innerHTML,
+      },
+    ];
 
     this.next();
-  }
+  };
 
   // wait until all the resources are loaded
-  window.addEventListener("load", findSVGElements, false);
+  window.addEventListener('load', findSVGElements, false);
 
   try {
     while (true) {
       yield render(
         <>
-          <ViewGraphElement
-            ref={ref(viewGraphElementRef)}
-            data={graphData}
-            edgeStyle={'polyline'}
-            nodeStyle={nodeStyle}
-          ></ViewGraphElement>
+          <ViewGraphElement ref={ref(viewGraphElementRef)} data={graphData} edgeStyle={'polyline'} nodeStyle={nodeStyle}></ViewGraphElement>
         </>,
         this
       );
