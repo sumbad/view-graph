@@ -1,12 +1,25 @@
 import * as dagre from 'dagre';
 import { GraphData, GraphEdge, GraphNode } from '../@types/graph.type';
 
+// TODO: calculate based on font size
+const LETTER_WIDTH = 12 as const;
+const LETTER_HEIGHT = 19  as const;
+
 export function computeGraph(
   data: GraphData,
   nodeSize: { width: number; height: number }
 ): { nodes: GraphNode[]; edges: GraphEdge[] } | undefined {
   if (data == null) {
     return;
+  }
+
+  let longestLabel = 0;
+
+  for (const node of data.nodes) {
+    const nodeLabelLength = getTextWidth(node.label);
+    if(nodeLabelLength > longestLabel) {
+      longestLabel = nodeLabelLength;
+    }
   }
 
   // Create a new directed graph
@@ -16,7 +29,7 @@ export function computeGraph(
     // TODO: property
     ranker: 'tight-tree',
     rankdir: 'LR',
-    ranksep: 50,
+    ranksep: longestLabel + 50
   } as any);
 
   // Default to assigning a new object as a label for each new edge.
@@ -28,7 +41,11 @@ export function computeGraph(
     // Add nodes to the graph. The first argument is the node id. The second is
     // metadata for a node. In this case we're going to add labels to each of
     // our nodes.
-    g.setNode(value.id, { label: value.label, width: nodeSize.width, height: nodeSize.height });
+    g.setNode(value.id, { 
+      label: value.label, 
+      width: nodeSize.width, 
+      height: nodeSize.height 
+    });
   });
 
   // Add edges to the graph
@@ -37,8 +54,8 @@ export function computeGraph(
       g.setEdge(String(value.from), String(value.to), {
         label: value.label,
         key: `${value.from}->${value.to}`.replace(/\s/g, '_'),
-        width: 12 * (value.label ?? '').length, // TODO: calculate based on something
-        height: 19, // TODO: calculate based on something
+        width: getTextWidth(value.label ?? ''),
+        height: LETTER_HEIGHT,
         labelpos: 'c',
       });
     }
@@ -83,4 +100,10 @@ export function computeGraph(
     nodes,
     edges,
   };
+}
+
+
+
+function getTextWidth(text: string) {
+  return LETTER_WIDTH * text.length;
 }

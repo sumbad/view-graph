@@ -100,7 +100,6 @@ export const tooltipElement = EG({
 
             background: rgba(0, 0, 0, 0.5);
             color: #fff;
-            max-width: 500px;
             padding: 5px 8px 4px 8px;
             text-align: center;
           `}
