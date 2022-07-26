@@ -36,6 +36,90 @@
         },
         {
           "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209234193615C831234C58B5CE07FCDBC48F1209234193615C831234C58B5CE07FCDBC48F1209"
+        },
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209"
+        },
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209"
+        },
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209"
+        },
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209"
+        },
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209"
+        },
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
+          "value": "234193615C831234C58B5CE07FCDBC48F1209"
+        },
+        {
+          "key": "Agent",
+          "value": "Node 3 agent"
+        },
+        {
+          "key": "Timestamp",
+          "value": "12:08:00.077"
+        },
+        {
+          "key": "X-Trace",
           "value": "234193615C831234C58B5CE07FCDBC48F1209"
         }
       ]
@@ -88,8 +172,7 @@
   "edges": [
     {
       "from": "Node 1",
-      "to": "Node 2",
-      "label": "Node 1 -> Node 2"
+      "to": "Node 2"
     },
     {
       "from": "null_1",
@@ -98,8 +181,7 @@
     },
     {
       "from": "Node 2",
-      "to": "Node 3",
-      "label": "Node 2 -> Node 3"
+      "to": "Node 3"
     },
     {
       "from": "null_2",

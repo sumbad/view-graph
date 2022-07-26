@@ -13,8 +13,8 @@ The `view-graph` takes descriptions of graphs in a simple JSON format, and makes
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [API](#api)
 - [Options](#options)
+- [API](#api)
 
 ## Installation
 
@@ -45,11 +45,6 @@ Or use a content delivery network:
 
 ---
 
-## API
-
-WIP
-
----
 
 ## Options
 
@@ -109,7 +104,7 @@ WIP
         -
       </td>
       <td>
-        <a href="./src/@types/graph.type.ts">NodeStyle</a>
+        <a href="./src/@types/graph.type.ts">NodeStyle | NodeStyle[]</a>
       </td>
       <td>
         An SVG rectangle
@@ -127,6 +122,62 @@ WIP
 
 It uses [dagre](https://github.com/dagrejs/dagre) under the hood for lay out directed graphs.
 
+
+---
+
+## API
+
+Set the `callback` property to add a reaction by click on a node or an edge.
+
+For example, you can change styles by click:
+
+```typescript
+  const onClickByNode = (event: MouseEvent) => {
+    const target = event.target as SVGElement;
+
+    if (target instanceof SVGTextElement) {
+      target.style.fill = 'red';
+      target.style.fontWeight = 'bold';
+    }
+
+    const id = target.parentElement!.id;
+
+    const nodes = graphData.nodes.map((n) => ({
+      ...n,
+      styleId: n.id === id ? 'selectedNode' : undefined,
+    }));
+
+    data = {
+      ...data,
+      nodes,
+    };
+
+    this.next();
+  };
+
+  const onClickByEdge = (event: MouseEvent) => {
+    const target = event.target as SVGElement;
+    const parent = target.parentElement!;
+
+    parent.childNodes.forEach((it) => {
+      if (it instanceof SVGElement) {
+        it.style.stroke = 'red';
+      }
+    });
+  };
+
+...
+
+<ViewGraphElement
+  data={data}
+  callback={{ onClickByNode, onClickByEdge }}
+></ViewGraphElement>
+
+
+```
+
+
+---
 
 ## License
 
