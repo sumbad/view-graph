@@ -16,14 +16,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- ## Unreleased -->
 
-## Unreleased
+## [[0.1.1 - 0.2.0](https://github.com/sumbad/view-graph/releases/tag/v0.2.0)] - 2022-07-26
 
 ### Added
   + Define a different style for a node by style IDs.
   + Emit evens by click on nodes.
   + Emit evens by click on edges.
-  + Add an element to center and set a default scaling
-  + Add buttons for scaling (+/-)
+  + Add an element to center and set a default scaling.
+  + Add buttons for scaling (+/-).
 
 ### Fixed
   + Overlapping nodes' labels.
