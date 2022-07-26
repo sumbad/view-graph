@@ -4,17 +4,19 @@ import { render } from 'lit-html';
 import { ref, createRef } from 'lit-html/directives/ref.js';
 
 import { graphNode } from './svg-components/graph.node';
-import { EdgeStyle, GraphData, GraphDataNodeInfoItem, NodeStyle, ToggleTooltip, Translation } from './@types/graph.type';
-import { computeGraph } from './utils/graph.util';
+import { EdgeStyle, GraphData, GraphDataNodeInfoItem, NodeStyle, Callback, ToggleTooltip, Translation } from './@types/graph.type';
+import { computeGraph, getNodeStyleMap } from './utils/graph.util';
 import { tooltipElement } from './tooltip.element';
 
-const defaultNodeStyle: NodeStyle = {
-  width: 100,
-  height: 100,
-  svg: `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+const defaultNodeStyle: NodeStyle[] = [
+  {
+    width: 100,
+    height: 100,
+    svg: `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="1.5" y="1.5" width="97" height="97" rx="8.5" stroke="black" stroke-width="3"/>
         </svg>`,
-};
+  },
+];
 
 const TooltipElement = tooltipElement('view-graph-tooltip');
 const Graph = graphNode();
@@ -23,17 +25,13 @@ export const viewGraphElement = EG({
   props: {
     data: p.req<GraphData>(),
     edgeStyle: p.opt<EdgeStyle>(),
-    nodeStyle: p.opt<NodeStyle>(),
+    nodeStyle: p.opt<NodeStyle | NodeStyle[]>(),
+    callback: p.opt<Callback>()
   },
 })(function* (params) {
   const $ = this.attachShadow({ mode: 'open' });
 
   const graphNodeRef = createRef<HTMLDivElement>();
-
-  let nodeStyle = params.nodeStyle != null ? params.nodeStyle : defaultNodeStyle;
-
-  let graphData = params.data;
-  let graph = computeGraph(graphData, nodeStyle);
 
   ////////////////////
 
@@ -164,19 +162,22 @@ export const viewGraphElement = EG({
       const node = params.data.nodes.find((it) => it.id === nodeKey)!;
 
       if (node.info == null || node.info.length === 0) {
+        isTooltipVisible = false;
+        this.next();
+        
         return;
       }
 
       tooltipInfo = node.info ?? [];
 
-      const viewGraphRect:DOMRect = mapElement.getBoundingClientRect();
+      const viewGraphRect: DOMRect = mapElement.getBoundingClientRect();
       const nodeRect = ($.getElementById(nodeKey)!.firstElementChild as SVGRectElement).getBoundingClientRect();
 
       let left = nodeRect.x - viewGraphRect.x - nodeRect.width;
       let top = nodeRect.y - viewGraphRect.y + nodeRect.height;
       let pointerOffset = nodeRect.width + nodeRect.width / 2;
 
-      if(left < 0) {
+      if (left < 0) {
         left = nodeRect.x;
         pointerOffset = 10;
       }
@@ -199,12 +200,19 @@ export const viewGraphElement = EG({
   });
 
   try {
+    let graphData: GraphData | undefined;
+    let graph: ReturnType<typeof computeGraph>;
+    let nodeStyle = params.nodeStyle;
+    let nodeStyleMap: Map<string, NodeStyle>;
+
     while (true) {
       if (params.data !== graphData || (params.nodeStyle != null && params.nodeStyle !== nodeStyle)) {
         graphData = params.data;
-        nodeStyle = params.nodeStyle != null ? params.nodeStyle : defaultNodeStyle;
+        nodeStyle = params.nodeStyle;
 
-        graph = computeGraph(graphData, nodeStyle);
+        nodeStyleMap = getNodeStyleMap(nodeStyle ?? defaultNodeStyle);
+
+        graph = computeGraph(graphData, nodeStyleMap);
       }
 
       params = yield render(
@@ -228,10 +236,11 @@ export const viewGraphElement = EG({
             <Graph
               nodes={graph.nodes}
               edges={graph.edges}
-              nodeStyle={nodeStyle}
+              nodeStyle={nodeStyleMap!}
               edgeStyle={params.edgeStyle ?? 'polyline'}
               transform={transform}
               toggleTooltip={toggleTooltip}
+              callback={params.callback}
             ></Graph>
           ) : (
             'Computing...'

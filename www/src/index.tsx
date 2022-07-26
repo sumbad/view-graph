@@ -14,6 +14,7 @@ const ViewGraphElement = viewGraphElement('view-graph');
 EG()(function* () {
   const viewGraphElementRef = createRef<HTMLElement>();
   let nodeStyle: NodeStyle | NodeStyle[] | undefined;
+  let data = graphData;
 
   const svg = document.querySelector('#svg') as HTMLObjectElement;
 
@@ -43,11 +44,40 @@ EG()(function* () {
   // wait until all the resources are loaded
   window.addEventListener('load', findSVGElements, false);
 
+  const onClickByNode = (event: MouseEvent) => {
+    const target = event.target as SVGElement;
+
+    if (target instanceof SVGTextElement) {
+      target.style.fill = 'red';
+      target.style.fontWeight = 'bold';
+    }
+
+    const id = target.parentElement!.id;
+
+    const nodes = graphData.nodes.map((n) => ({
+      ...n,
+      styleId: n.id === id ? 'selectedNode' : undefined,
+    }));
+
+    data = {
+      ...data,
+      nodes,
+    };
+
+    this.next();
+  };
+
   try {
     while (true) {
       yield render(
         <>
-          <ViewGraphElement ref={ref(viewGraphElementRef)} data={graphData} edgeStyle={'polyline'} nodeStyle={nodeStyle}></ViewGraphElement>
+          <ViewGraphElement
+            ref={ref(viewGraphElementRef)}
+            data={data}
+            edgeStyle={'polyline'}
+            nodeStyle={nodeStyle}
+            callback={{ onClickByNode }}
+          ></ViewGraphElement>
         </>,
         this
       );

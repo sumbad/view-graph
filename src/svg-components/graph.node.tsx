@@ -2,7 +2,7 @@ import { NG } from '@web-companions/gfc';
 import { css } from '@web-companions/h';
 import { ref, createRef, Ref } from 'lit-html/directives/ref.js';
 import { unsafeSVG } from 'lit-html/directives/unsafe-svg.js';
-import { EdgeStyle, GraphEdge, GraphNode, NodeStyle, ToggleTooltip } from '../@types/graph.type';
+import { EdgeStyle, GraphEdge, GraphNode, NodeStyle, Callback, ToggleTooltip } from '../@types/graph.type';
 import { GRAPH_NODE_DEFAULT_ID } from '../utils/graph.util';
 import { renderNode } from '../utils/renderNode.directive';
 import { edgeNode } from './edge.node';
@@ -18,6 +18,8 @@ interface IGraphProps {
   transform: string;
 
   toggleTooltip: ToggleTooltip;
+  
+  callback?: Callback;
 }
 
 const Edge = edgeNode();
@@ -88,6 +90,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
             width={value.width}
             label={value.label}
             styleId={value.styleId}
+            clickByNode={params.callback?.onClickByNode}
           />
         );
       });

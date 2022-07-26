@@ -59,3 +59,8 @@ export interface Translation {
 }
 
 export type ToggleTooltip = (isVisible: boolean, nodeKey: string) => void;
+
+
+export interface Callback {
+  onClickByNode: (event: MouseEvent) => void;
+}
