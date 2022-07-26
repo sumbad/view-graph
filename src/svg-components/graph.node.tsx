@@ -16,6 +16,7 @@ interface IGraphProps {
   nodeStyle: Map<string, NodeStyle>;
 
   transform: string;
+  transition?: string;
 
   toggleTooltip: ToggleTooltip;
   
@@ -126,6 +127,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
 
             transform-origin: 0px 0px;
             transform: ${params.transform};
+            transition: ${params.transition};
 
             user-select: none;
             /* clean-css ignore:end */

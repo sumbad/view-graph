@@ -1,12 +1,14 @@
 import { EG, p } from '@web-companions/gfc';
-import { css } from '@web-companions/h';
+import { css, setStyle } from '@web-companions/h';
 import { render } from 'lit-html';
 import { ref, createRef } from 'lit-html/directives/ref.js';
 
 import { graphNode } from './svg-components/graph.node';
 import { EdgeStyle, GraphData, GraphDataNodeInfoItem, NodeStyle, Callback, ToggleTooltip, Translation } from './@types/graph.type';
-import { computeGraph, getNodeStyleMap } from './utils/graph.util';
+import { computeGraph, getNodeStyleMap, handleZoom } from './utils/graph.util';
 import { tooltipElement } from './tooltip.element';
+import { controlsElement } from './controls.element';
+import style from './style.scss';
 
 const defaultNodeStyle: NodeStyle[] = [
   {
@@ -19,6 +21,7 @@ const defaultNodeStyle: NodeStyle[] = [
 ];
 
 const TooltipElement = tooltipElement('view-graph-tooltip');
+const ControlsElement = controlsElement('view-graph-controls');
 const Graph = graphNode();
 
 export const viewGraphElement = EG({
@@ -26,10 +29,12 @@ export const viewGraphElement = EG({
     data: p.req<GraphData>(),
     edgeStyle: p.opt<EdgeStyle>(),
     nodeStyle: p.opt<NodeStyle | NodeStyle[]>(),
-    callback: p.opt<Callback>()
+    callback: p.opt<Callback>(),
   },
 })(function* (params) {
   const $ = this.attachShadow({ mode: 'open' });
+
+  setStyle(style, $);
 
   const graphNodeRef = createRef<HTMLDivElement>();
 
@@ -44,6 +49,7 @@ export const viewGraphElement = EG({
 
   let translation = defaultTranslation;
   let zoom = defaultZoom;
+  let transition: string | undefined;
 
   let startGrabMousePosition: Translation | null;
   let startGrabTranslation: Translation | null;
@@ -72,7 +78,17 @@ export const viewGraphElement = EG({
         y: translation.y - deltaY * panSensitivity,
       };
     } else if (e.ctrlKey) {
-      [translation, zoom] = handleZoom(e);
+      [translation, zoom] = handleZoom(
+        e.deltaY,
+        zoom,
+        zoomSensitivity,
+        minZoom,
+        maxZoom,
+        e.clientX,
+        e.clientY,
+        mapElement.getBoundingClientRect(),
+        translation
+      );
     }
 
     updateTransform();
@@ -109,28 +125,6 @@ export const viewGraphElement = EG({
     this.next();
   };
 
-  const handleZoom = (e: WheelEvent): [Translation, number] => {
-    const xScale = (e.clientX - mapElement.getBoundingClientRect().x - translation.x) / zoom;
-    const yScale = (e.clientY - mapElement.getBoundingClientRect().y - translation.y) / zoom;
-
-    const adjSensitivity = zoomSensitivity;
-    let newZoom = zoom - zoom * e.deltaY * 0.01 * adjSensitivity;
-
-    if (minZoom != null) {
-      newZoom = Math.max(minZoom, newZoom);
-    }
-    if (maxZoom != null) {
-      newZoom = Math.min(maxZoom, newZoom);
-    }
-
-    const newTranslation = {
-      x: e.clientX - mapElement.getBoundingClientRect().x - xScale * newZoom,
-      y: e.clientY - mapElement.getBoundingClientRect().y - yScale * newZoom,
-    };
-
-    return [newTranslation, newZoom];
-  };
-
   const initPanZoom = () => {
     if (mapElement == null) {
       return;
@@ -164,7 +158,7 @@ export const viewGraphElement = EG({
       if (node.info == null || node.info.length === 0) {
         isTooltipVisible = false;
         this.next();
-        
+
         return;
       }
 
@@ -190,6 +184,37 @@ export const viewGraphElement = EG({
     }
 
     this.next();
+  };
+
+  const onZoom = (scale: number) => () => {
+    transition = 'transform .2s ease-in-out';
+
+    const clientX = mapElement.getBoundingClientRect().width / 2;
+    const clientY = mapElement.getBoundingClientRect().height / 2;
+
+    [translation, zoom] = handleZoom(
+      scale,
+      zoom,
+      zoomSensitivity,
+      minZoom,
+      maxZoom,
+      clientX,
+      clientY,
+      mapElement.getBoundingClientRect(),
+      translation
+    );
+
+    updateTransform();
+
+    requestAnimationFrame(() => {
+      transition = 'none';
+    });
+  };
+
+  const onZoomCenter = () => {
+    translation = defaultTranslation;
+    zoom = defaultZoom;
+    updateTransform();
   };
 
   requestAnimationFrame(() => {
@@ -239,12 +264,15 @@ export const viewGraphElement = EG({
               nodeStyle={nodeStyleMap!}
               edgeStyle={params.edgeStyle ?? 'polyline'}
               transform={transform}
+              transition={transition}
               toggleTooltip={toggleTooltip}
               callback={params.callback}
             ></Graph>
           ) : (
             'Computing...'
           )}
+
+          <ControlsElement onzoomIn={onZoom(-50)} onzoomOut={onZoom(50)} onzoomCenter={onZoomCenter}></ControlsElement>
         </div>,
         $
       );

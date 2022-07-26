@@ -1,5 +1,5 @@
 import * as dagre from 'dagre';
-import { GraphData, GraphEdge, GraphNode, NodeStyle } from '../@types/graph.type';
+import { GraphData, GraphEdge, GraphNode, NodeStyle, Translation } from '../@types/graph.type';
 
 // TODO: calculate based on font size
 const LETTER_WIDTH = 12 as const;
@@ -104,10 +104,6 @@ export function computeGraph(data: GraphData, nodeStyle: Map<string, NodeStyle>)
   };
 }
 
-function getTextWidth(text: string) {
-  return LETTER_WIDTH * text.length;
-}
-
 export function getNodeStyleMap(nodeStyle: NodeStyle | NodeStyle[]) {
   nodeStyle = Array.isArray(nodeStyle) ? nodeStyle : [nodeStyle];
 
@@ -118,4 +114,35 @@ export function getNodeStyleMap(nodeStyle: NodeStyle | NodeStyle[]) {
   }
 
   return nsMap;
+}
+
+export function handleZoom(
+  scale: number,
+  zoom: number,
+  adjSensitivity: number,
+  minZoom: number,
+  maxZoom: number,
+  clientX: number,
+  clientY: number,
+  elPos: Translation,
+  translation: Translation
+): [Translation, number] {
+  let newZoom = zoom - zoom * scale * 0.01 * adjSensitivity;
+  newZoom = Math.max(minZoom, newZoom);
+  newZoom = Math.min(maxZoom, newZoom);
+
+  const xScale = (clientX - elPos.x - translation.x) / zoom;
+  const yScale = (clientY - elPos.y - translation.y) / zoom;
+
+  return [
+    {
+      x: clientX - elPos.x - xScale * newZoom,
+      y: clientY - elPos.y - yScale * newZoom,
+    },
+    newZoom,
+  ];
+}
+
+function getTextWidth(text: string) {
+  return LETTER_WIDTH * text.length;
 }
