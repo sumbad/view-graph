@@ -67,6 +67,17 @@ EG()(function* () {
     this.next();
   };
 
+  const onClickByEdge = (event: MouseEvent) => {
+    const target = event.target as SVGElement;
+    const parent = target.parentElement!;
+
+    parent.childNodes.forEach((it) => {
+      if (it instanceof SVGElement) {
+        it.style.stroke = 'red';
+      }
+    });
+  };
+
   try {
     while (true) {
       yield render(
@@ -76,7 +87,7 @@ EG()(function* () {
             data={data}
             edgeStyle={'polyline'}
             nodeStyle={nodeStyle}
-            callback={{ onClickByNode }}
+            callback={{ onClickByNode, onClickByEdge }}
           ></ViewGraphElement>
         </>,
         this

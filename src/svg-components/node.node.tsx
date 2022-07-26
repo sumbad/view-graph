@@ -32,6 +32,9 @@ export const nodeNode = NG<NodeProp>(function* (params) {
         onmouseenter={onMouseEnter}
         onmouseleave={onMouseLeave}
         onclick={params.clickByNode}
+        style={css`
+          cursor: pointer;
+        `}
       >
         <rect x="0" y="0" width={params.width} height={params.height} opacity="0"></rect>
         <use x="0" y="0" width={params.width} height={params.height} href={`#${params.styleId ?? GRAPH_NODE_DEFAULT_ID}`} />

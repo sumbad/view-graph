@@ -103,9 +103,10 @@ export const graphNode = NG<IGraphProps>(function* (params) {
             points={value.points}
             label={value.label}
             stroke={'#A6A5A5'}
-            strokeWidth={2}
+            strokeWidth={3}
             markerScale={3}
             edgeStyle={params.edgeStyle}
+            clickByEdge={params.callback?.onClickByEdge}
           />
         );
       });
