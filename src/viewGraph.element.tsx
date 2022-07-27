@@ -263,7 +263,7 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
             padding: 1rem;
             cursor: grab;
           `}
-          id="graph-container"
+          name="view-graph"
           ref={ref(graphNodeRef)}
         >
           <TooltipElement isVisible={isTooltipVisible} pos={tooltipPos} info={tooltipInfo}></TooltipElement>

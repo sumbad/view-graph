@@ -27,6 +27,7 @@ export const nodeNode = NG<NodeProp>(function* (params) {
   while (true) {
     params = yield renderNode(
       <g
+        name="graph-node"
         id={params.key}
         transform={'translate(' + (params.cx - params.width / 2) + ',' + (params.cy - params.height / 2) + ')'}
         onmouseenter={onMouseEnter}
@@ -37,8 +38,16 @@ export const nodeNode = NG<NodeProp>(function* (params) {
         `}
       >
         <rect x="0" y="0" width={params.width} height={params.height} opacity="0"></rect>
-        <use x="0" y="0" width={params.width} height={params.height} href={`#${params.styleId ?? GRAPH_NODE_DEFAULT_ID}`} />
+        <use
+          name="graph-node__entity"
+          x="0"
+          y="0"
+          width={params.width}
+          height={params.height}
+          href={`#${params.styleId ?? GRAPH_NODE_DEFAULT_ID}`}
+        />
         <text
+          name="graph-node__label"
           x={params.width + 10}
           y="20"
           filter="url(#solid)"

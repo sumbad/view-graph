@@ -19,7 +19,7 @@ interface IGraphProps {
   transition?: string;
 
   toggleTooltip: ToggleTooltip;
-  
+
   callback?: Callback;
 }
 
@@ -115,7 +115,7 @@ export const graphNode = NG<IGraphProps>(function* (params) {
       // TODO: move styles to adopted style sheet; add "cursor: grabbing" for active modification
       params = yield renderNode(
         <svg
-          id="graph"
+          name="graph"
           ref={ref(svgRef)}
           viewBox={viewBox}
           style={css`
@@ -133,20 +133,18 @@ export const graphNode = NG<IGraphProps>(function* (params) {
             /* clean-css ignore:end */
           `}
         >
-          <g>
-            <defs>
-              {NodesDefs}
-              <filter x="0" y="0" width="1" height="1" id="solid">
-                <feFlood flood-color="white" result="bg" />
-                <feMerge>
-                  <feMergeNode in="bg" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            {Edges}
-            {Nodes}
-          </g>
+          <defs>
+            {NodesDefs}
+            <filter x="0" y="0" width="1" height="1" id="solid">
+              <feFlood flood-color="white" result="bg" />
+              <feMerge>
+                <feMergeNode in="bg" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          {Edges}
+          {Nodes}
         </svg>,
         this
       );

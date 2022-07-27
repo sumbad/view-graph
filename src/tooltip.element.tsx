@@ -51,6 +51,7 @@ export const tooltipElement = EG({
 
     params = yield render(
       <div
+        name="view-graph__tooltip"
         onwheel={preventMoving}
         onmousedown={preventMoving}
         onmousemove={preventMoving}

@@ -78,9 +78,13 @@ EG()(function* () {
     });
   };
 
-  const graphOverwriteCss = `
+  const graphOverwriteCss = /*css*/`
     #Node_1 text:hover {
       stroke: purple;
+    }
+
+    [name="graph-edge__label"] {
+      font-style: italic;
     }
   `;
 

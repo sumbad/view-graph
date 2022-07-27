@@ -70,6 +70,7 @@ export const edgeNode = NG<IEdgeProps>(function* (params) {
   while (true) {
     params = yield renderNode(
       <g
+        name="graph-edge"
         id={params.key}
         onclick={params.clickByEdge}
         style={css`
@@ -107,9 +108,10 @@ export const edgeNode = NG<IEdgeProps>(function* (params) {
           )}
         </defs>
         <use x="0" y="0" href={`#line_${params.key}`} stroke-width={params.strokeWidth! + 10} stroke-opacity="0" stroke={params.stroke} />
-        <use x="0" y="0" href={`#line_${params.key}`} stroke-width={params.strokeWidth} stroke={params.stroke} />
+        <use name="graph-edge__entity" x="0" y="0" href={`#line_${params.key}`} stroke-width={params.strokeWidth} stroke={params.stroke} />
         {params.label != null ? (
           <text
+            name="graph-edge__label"
             x={params.label.x}
             y={params.label.y}
             style={css`
