@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
-## [[0.3.0 - 0.3.3](https://github.com/sumbad/view-graph/releases/tag/v0.3.3)] - 2022-07-27
+## [[0.3.0 - 0.3.4](https://github.com/sumbad/view-graph/releases/tag/v0.3.4)] - 2022-07-27
 
 ### Added
   + Overwrite the component's styles
@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
   + Return right types for the React adapter instead of `any`
+  + Update graph's css if the property was changed
 
 
 ## [[0.2.0](https://github.com/sumbad/view-graph/releases/tag/v0.2.0)] - 2022-07-26

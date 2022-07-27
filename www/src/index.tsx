@@ -78,7 +78,7 @@ EG()(function* () {
     });
   };
 
-  const graphOverwriteCss = /*css*/`
+  let graphOverwriteCss = /*css*/ `
     #Node_1 text:hover {
       stroke: purple;
     }
@@ -87,6 +87,18 @@ EG()(function* () {
       font-style: italic;
     }
   `;
+
+  setTimeout(() => {
+    graphOverwriteCss = /*css*/ `
+    ${graphOverwriteCss}
+
+    #Node_1 text {
+      stroke: green;
+    }
+  `;
+
+    this.next();
+  }, 2000);
 
   try {
     while (true) {

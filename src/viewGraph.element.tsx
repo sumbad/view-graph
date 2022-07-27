@@ -44,8 +44,6 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
 })(function* (params) {
   const $ = this.attachShadow({ mode: 'open' });
 
-  setStyle(`${style}\n${params.css}`, $);
-
   const graphNodeRef = createRef<HTMLDivElement>();
 
   ////////////////////
@@ -235,10 +233,13 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
   });
 
   try {
+    let graphCss = params.css;
     let graphData: GraphData | undefined;
     let graph: ReturnType<typeof computeGraph>;
     let nodeStyle = params.nodeStyle;
     let nodeStyleMap: Map<string, NodeStyle>;
+
+    setStyle(`${style}\n${graphCss}`, $);
 
     while (true) {
       if (params.data !== graphData || (params.nodeStyle != null && params.nodeStyle !== nodeStyle)) {
@@ -248,6 +249,11 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
         nodeStyleMap = getNodeStyleMap(nodeStyle ?? defaultNodeStyle);
 
         graph = computeGraph(graphData, nodeStyleMap);
+      }
+      
+      if(!Object.is(params.css, graphCss)){
+        graphCss = params.css;
+        setStyle(`${style}\n${graphCss}`, $);
       }
 
       params = yield render(
