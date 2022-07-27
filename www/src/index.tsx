@@ -78,6 +78,12 @@ EG()(function* () {
     });
   };
 
+  const graphOverwriteCss = `
+    #Node_1 text:hover {
+      stroke: purple;
+    }
+  `;
+
   try {
     while (true) {
       yield render(
@@ -88,6 +94,7 @@ EG()(function* () {
             edgeStyle={'polyline'}
             nodeStyle={nodeStyle}
             callback={{ onClickByNode, onClickByEdge }}
+            css={graphOverwriteCss}
           ></ViewGraphElement>
         </>,
         this

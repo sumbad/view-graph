@@ -113,6 +113,23 @@ Or use a content delivery network:
         This SVG will be using as nodes image
       </td>
     </tr>
+    <tr>
+      <td>
+        <code>css</code>
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        String
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        Overwrite the default styles
+      </td>
+    </tr>
   </tbody>
 </table>
 

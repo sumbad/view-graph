@@ -5,7 +5,7 @@
  *
  * @see https://github.com/facebook/react/issues/11347
  */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useImperativeHandle } from 'react';
 import { elementToReact } from '@web-companions/react-adapter';
 import { viewGraphElement } from '../viewGraph.element';
 import { EdgeStyle, GraphData, NodeStyle } from '../@types/graph.type';
@@ -20,8 +20,9 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-export function ViewGraphReact(params: Props) {
-  const viewGraphRef = useRef<{ props: Props } & HTMLElement>();
+export const ViewGraphReact = React.forwardRef((params: Props, ref) => {
+  const viewGraphRef = useRef<{ props: Props } & HTMLElement>(null);
+  useImperativeHandle(ref, () => viewGraphRef.current);
 
   useEffect(() => {
     const viewGraphEl = viewGraphRef.current;
@@ -45,4 +46,4 @@ export function ViewGraphReact(params: Props) {
       ></ViewGraphElementReact>
     </div>
   );
-}
+});

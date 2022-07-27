@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- ## Unreleased -->
 
+
+## Unreleased
+
+### Added
+  + Overwrite the component's styles
+
+
 ## [[0.1.1 - 0.2.0](https://github.com/sumbad/view-graph/releases/tag/v0.2.0)] - 2022-07-26
 
 ### Added

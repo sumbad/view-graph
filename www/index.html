@@ -14,6 +14,19 @@
   <title>Demo</title>
 </head>
 
+<style>
+  demo-app {
+    position: absolute;
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+</style>
+
 <body>
 
   <object
@@ -23,15 +36,7 @@
     style="visibility: hidden;"
   ></object>
 
-  <demo-app style="
-      position: absolute;
-      display: flex;
-      height: 100vh;
-      width: 100vw;
-      left: 0;
-      top: 0;
-      border: 1px solid #ccc;
-      box-sizing: border-box;">
+  <demo-app>
   </demo-app>
 
   <script src="index.js"></script>

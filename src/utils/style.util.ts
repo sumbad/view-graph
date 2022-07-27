@@ -2,18 +2,18 @@ import { CSSProperties } from 'react';
 
 /**
  * Transform CSS Properties from React to standard CSS
- * 
- * @param cssProperties 
- * @returns 
+ *
+ * @param cssProperties
+ * @returns
  */
-export function reactCSSPropertyToInlineStyle(cssProperties: CSSProperties): string {
+ export function reactCSSPropertyToInlineStyle(cssProperties: CSSProperties): string {
   const keyList = Object.keys(cssProperties);
 
   return keyList.reduce((acc, key) => {
     const cssKey = kebabCase(key);
-    
+
     // delete ' in value
-    const cssValue = cssProperties[key].replace("'", '');
+    const cssValue = String(cssProperties[key]).replace("'", '');
 
     return `${acc}${cssKey}:${cssValue};`;
   }, '');

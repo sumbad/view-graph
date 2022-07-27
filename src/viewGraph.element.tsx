@@ -14,9 +14,10 @@ const defaultNodeStyle: NodeStyle[] = [
   {
     width: 100,
     height: 100,
-    svg: `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1.5" y="1.5" width="97" height="97" rx="8.5" stroke="black" stroke-width="3"/>
-        </svg>`,
+    svg: `
+      <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1.5" y="1.5" width="97" height="97" rx="8.5" stroke="black" stroke-width="3"/>
+      </svg>`,
   },
 ];
 
@@ -30,11 +31,12 @@ export const viewGraphElement = EG({
     edgeStyle: p.opt<EdgeStyle>(),
     nodeStyle: p.opt<NodeStyle | NodeStyle[]>(),
     callback: p.opt<Callback>(),
+    css: p.opt<string>(),
   },
 })(function* (params) {
   const $ = this.attachShadow({ mode: 'open' });
 
-  setStyle(style, $);
+  setStyle(`${style}\n${params.css}`, $);
 
   const graphNodeRef = createRef<HTMLDivElement>();
 
