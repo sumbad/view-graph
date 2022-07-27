@@ -7,16 +7,12 @@
  */
 import React, { useRef, useEffect, useImperativeHandle } from 'react';
 import { elementToReact } from '@web-companions/react-adapter';
-import { viewGraphElement } from '../viewGraph.element';
-import { EdgeStyle, GraphData, NodeStyle } from '../@types/graph.type';
+import { viewGraphElement, ViewGraphElementProps } from '../viewGraph.element';
 import { reactCSSPropertyToInlineStyle } from '../utils/style.util';
 
 const ViewGraphElementReact = viewGraphElement('view-graph').adapter(elementToReact);
 
-type Props = {
-  data: GraphData;
-  edgeStyle?: EdgeStyle;
-  nodeStyle?: NodeStyle;
+interface Props extends ViewGraphElementProps {
   style?: React.CSSProperties;
 };
 

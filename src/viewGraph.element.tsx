@@ -25,7 +25,15 @@ const TooltipElement = tooltipElement('view-graph-tooltip');
 const ControlsElement = controlsElement('view-graph-controls');
 const Graph = graphNode();
 
-export const viewGraphElement = EG({
+export type ViewGraphElementProps = {
+  data: GraphData;
+  edgeStyle?: EdgeStyle;
+  nodeStyle?: NodeStyle | NodeStyle[];
+  callback?: Callback,
+  css?: string,
+};
+
+export const viewGraphElement = EG<ViewGraphElementProps>({
   props: {
     data: p.req<GraphData>(),
     edgeStyle: p.opt<EdgeStyle>(),

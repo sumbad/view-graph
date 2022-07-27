@@ -17,18 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
-## [[0.3.0 - 0.3.1](https://github.com/sumbad/view-graph/releases/tag/v0.3.1)] - 2022-07-27
+## [[0.3.1 - 0.3.2](https://github.com/sumbad/view-graph/releases/tag/v0.3.2)] - 2022-07-27
 
 ### Fixed
   + Return right types for the React adapter instead of `any`
 
-## [[0.2.0 - 0.3.0](https://github.com/sumbad/view-graph/releases/tag/v0.3.0)] - 2022-07-27
+## [[0.3.0](https://github.com/sumbad/view-graph/releases/tag/v0.3.0)] - 2022-07-27
 
 ### Added
   + Overwrite the component's styles
 
 
-## [[0.1.1 - 0.2.0](https://github.com/sumbad/view-graph/releases/tag/v0.2.0)] - 2022-07-26
+## [[0.2.0](https://github.com/sumbad/view-graph/releases/tag/v0.2.0)] - 2022-07-26
 
 ### Added
   + Define a different style for a node by style IDs.
@@ -42,14 +42,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [[0.1.0 - 0.1.1](https://github.com/sumbad/view-graph/releases/tag/v0.1.1)] - 2022-07-17
+## [[0.1.1](https://github.com/sumbad/view-graph/releases/tag/v0.1.1)] - 2022-07-17
 
 ### Fixed
   - Update dependencies, resolve errors with Nodes rendering
 
 
 
-## [[0.0.6 - 0.1.0](https://github.com/sumbad/view-graph/releases/tag/v0.0.1)] - 2022-07-08
+## [[0.1.0](https://github.com/sumbad/view-graph/releases/tag/v0.0.1)] - 2022-07-08
 
 ### Added
   - Show a tooltip for Nodes with additional information
