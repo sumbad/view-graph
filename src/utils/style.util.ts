@@ -1,4 +1,5 @@
-import { CSSProperties } from 'react';
+import type React from 'react';
+
 
 /**
  * Transform CSS Properties from React to standard CSS
@@ -6,8 +7,8 @@ import { CSSProperties } from 'react';
  * @param cssProperties
  * @returns
  */
- export function reactCSSPropertyToInlineStyle(cssProperties: CSSProperties): string {
-  const keyList = Object.keys(cssProperties);
+ export function reactCSSPropertyToInlineStyle(cssProperties: React.CSSProperties): string {
+  const keyList = Object.keys(cssProperties) as (keyof React.CSSProperties)[];
 
   return keyList.reduce((acc, key) => {
     const cssKey = kebabCase(key);

@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
+## [[0.3.0 - 0.3.1](https://github.com/sumbad/view-graph/releases/tag/v0.3.1)] - 2022-07-27
+
+### Fixed
+  + Return right types for the React adapter instead of `any`
+
 ## [[0.2.0 - 0.3.0](https://github.com/sumbad/view-graph/releases/tag/v0.3.0)] - 2022-07-27
 
 ### Added
