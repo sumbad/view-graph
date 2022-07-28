@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
-## [[0.3.0 - 0.3.4](https://github.com/sumbad/view-graph/releases/tag/v0.3.4)] - 2022-07-27
+## [[0.3.0 - 0.3.5](https://github.com/sumbad/view-graph/releases/tag/v0.3.5)] - 2022-07-27
 
 ### Added
   + Overwrite the component's styles

@@ -1,5 +1,5 @@
 import { EG, p } from '@web-companions/gfc';
-import { css, setStyle } from '@web-companions/h';
+import { setStyle } from '@web-companions/h';
 import { render } from 'lit-html';
 import { ref, createRef } from 'lit-html/directives/ref.js';
 
@@ -29,8 +29,8 @@ export type ViewGraphElementProps = {
   data: GraphData;
   edgeStyle?: EdgeStyle;
   nodeStyle?: NodeStyle | NodeStyle[];
-  callback?: Callback,
-  css?: string,
+  callback?: Callback;
+  css?: string;
 };
 
 export const viewGraphElement = EG<ViewGraphElementProps>({
@@ -250,28 +250,14 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
 
         graph = computeGraph(graphData, nodeStyleMap);
       }
-      
-      if(!Object.is(params.css, graphCss)){
+
+      if (!Object.is(params.css, graphCss)) {
         graphCss = params.css;
         setStyle(`${style}\n${graphCss}`, $);
       }
 
       params = yield render(
-        <div
-          style={css`
-            /* position: absolute; */
-            /* display: block; */
-            transition: opacity 0.75s ease, width 0.75s ease;
-            overflow: hidden;
-            font-family: sans-serif;
-            height: calc(100% - 2rem);
-            width: calc(100% - 2rem);
-            padding: 1rem;
-            cursor: grab;
-          `}
-          name="view-graph"
-          ref={ref(graphNodeRef)}
-        >
+        <div class="view-graph" ref={ref(graphNodeRef)}>
           <TooltipElement isVisible={isTooltipVisible} pos={tooltipPos} info={tooltipInfo}></TooltipElement>
           {graph != null ? (
             <Graph

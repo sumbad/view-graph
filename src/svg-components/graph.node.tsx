@@ -115,21 +115,13 @@ export const graphNode = NG<IGraphProps>(function* (params) {
       // TODO: move styles to adopted style sheet; add "cursor: grabbing" for active modification
       params = yield renderNode(
         <svg
-          name="graph"
+          class="graph"
           ref={ref(svgRef)}
           viewBox={viewBox}
           style={css`
             /* clean-css ignore:start */
-            /* position: absolute; */
-            overflow: visible;
-            width: 100%;
-            height: 100%;
-
-            transform-origin: 0px 0px;
             transform: ${params.transform};
             transition: ${params.transition};
-
-            user-select: none;
             /* clean-css ignore:end */
           `}
         >

@@ -1,5 +1,4 @@
 import { NG } from '@web-companions/gfc';
-import { css } from '@web-companions/h';
 import { Callback, GraphNode, ToggleTooltip } from '../@types/graph.type';
 import { GRAPH_NODE_DEFAULT_ID } from '../utils/graph.util';
 import { renderNode } from '../utils/renderNode.directive';
@@ -27,36 +26,18 @@ export const nodeNode = NG<NodeProp>(function* (params) {
   while (true) {
     params = yield renderNode(
       <g
-        name="graph-node"
+        class="graph-node"
         id={params.key}
         transform={'translate(' + (params.cx - params.width / 2) + ',' + (params.cy - params.height / 2) + ')'}
         onmouseenter={onMouseEnter}
         onmouseleave={onMouseLeave}
-        onclick={params.clickByNode}
-        style={css`
-          cursor: pointer;
-        `}
+        onclick={params.clickByNode?.(params.key)}
       >
-        <rect x="0" y="0" width={params.width} height={params.height} opacity="0"></rect>
-        <use
-          name="graph-node__entity"
-          x="0"
-          y="0"
-          width={params.width}
-          height={params.height}
-          href={`#${params.styleId ?? GRAPH_NODE_DEFAULT_ID}`}
-        />
-        <text
-          name="graph-node__label"
-          x={params.width + 10}
-          y="20"
-          filter="url(#solid)"
-          style={css`
-            font-size: 1.2rem;
-            color: #2e2e2e;
-            font-weight: 500;
-          `}
-        >
+        <g class="graph-node__entity">
+          <rect x="0" y="0" width={params.width} height={params.height} opacity="0"></rect>
+          <use x="0" y="0" width={params.width} height={params.height} href={`#${params.styleId ?? GRAPH_NODE_DEFAULT_ID}`} />
+        </g>
+        <text class="graph-node__label" x={params.width + 10} y="20" filter="url(#solid)">
           {params.label}
         </text>
       </g>,

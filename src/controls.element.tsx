@@ -16,7 +16,7 @@ export const controlsElement = EG({
   while (true) {
     yield render(
       <div
-        name="view-graph__controls"
+        class="view-graph-controls"
         style={css`
           bottom: 8px;
           left: 8px px;

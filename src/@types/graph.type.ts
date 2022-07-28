@@ -60,8 +60,7 @@ export interface Translation {
 
 export type ToggleTooltip = (isVisible: boolean, nodeKey: string) => void;
 
-
 export interface Callback {
-  onClickByNode?: (event: MouseEvent) => void;
-  onClickByEdge?: (event: MouseEvent) => void;
+  onClickByNode?: (nodeId: string) => ((event: MouseEvent) => void) | void;
+  onClickByEdge?: (edgeId: string) => ((event: MouseEvent) => void) | void;
 }

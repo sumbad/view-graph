@@ -38,7 +38,7 @@ export const tooltipElement = EG({
 
   const preventMoving = (event: MouseEvent) => {
     event.stopPropagation();
-  }
+  };
 
   while (true) {
     if (!params.isVisible) {
@@ -51,7 +51,7 @@ export const tooltipElement = EG({
 
     params = yield render(
       <div
-        name="view-graph__tooltip"
+        class="view-graph-tooltip"
         onwheel={preventMoving}
         onmousedown={preventMoving}
         onmousemove={preventMoving}

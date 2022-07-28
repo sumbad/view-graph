@@ -29,3 +29,39 @@ div.ico > button > * {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+.view-graph {
+  /* position: absolute; */
+  /* display: block; */
+  transition: opacity 0.75s ease, width 0.75s ease;
+  overflow: hidden;
+  font-family: sans-serif;
+  height: calc(100% - 2rem);
+  width: calc(100% - 2rem);
+  padding: 1rem;
+  cursor: grab;
+
+  :active {
+    cursor: grabbing;
+  }
+}
+
+.graph {
+  /* position: absolute; */
+  overflow: visible;
+  width: 100%;
+  height: 100%;
+
+  transform-origin: 0px 0px;
+
+  user-select: none;
+}
+
+.graph-node__label {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.graph-edge__label {
+  font-size: 1rem;
+}

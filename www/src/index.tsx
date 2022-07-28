@@ -44,7 +44,9 @@ EG()(function* () {
   // wait until all the resources are loaded
   window.addEventListener('load', findSVGElements, false);
 
-  const onClickByNode = (event: MouseEvent) => {
+  const onClickByNode = (nodeId: string) => (event: MouseEvent) => {
+    console.log('nodeId', nodeId);
+
     const target = event.target as SVGElement;
 
     if (target instanceof SVGTextElement) {
@@ -52,7 +54,7 @@ EG()(function* () {
       target.style.fontWeight = 'bold';
     }
 
-    const id = target.parentElement!.id;
+    const id = target.parentElement?.parentElement?.id;
 
     const nodes = graphData.nodes.map((n) => ({
       ...n,
@@ -67,24 +69,31 @@ EG()(function* () {
     this.next();
   };
 
-  const onClickByEdge = (event: MouseEvent) => {
+  const onClickByEdge = (edgeId: string) => (event: MouseEvent) => {
+    console.log('edgeId', edgeId);
     const target = event.target as SVGElement;
     const parent = target.parentElement!;
 
     parent.childNodes.forEach((it) => {
       if (it instanceof SVGElement) {
         it.style.stroke = 'red';
+        it.style.fill = 'red';
       }
     });
   };
 
   let graphOverwriteCss = /*css*/ `
-    #Node_1 text:hover {
-      stroke: purple;
+    .graph-node, .graph-edge {
+      cursor: pointer;
     }
 
-    [name="graph-edge__label"] {
+    .graph-edge__label {
       font-style: italic;
+    }
+
+    .graph-edge__entity:hover {
+      fill: black;
+      stroke: black;
     }
   `;
 
