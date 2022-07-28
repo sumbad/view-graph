@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- ## Unreleased -->
 
+## [[0.3.5 - 0.3.6](https://github.com/sumbad/view-graph/releases/tag/v0.3.6)] - 2022-07-28
+
+### Changed
+  + Involve `id` required property to GraphDataEdge type
+
 
 ## [[0.3.0 - 0.3.5](https://github.com/sumbad/view-graph/releases/tag/v0.3.5)] - 2022-07-27
 

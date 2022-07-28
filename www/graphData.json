@@ -171,54 +171,70 @@
   ],
   "edges": [
     {
+      "id": "1-1",
+      "from": "Node_1",
+      "to": "Node_1"
+    },
+    {
+      "id": "1-2",
       "from": "Node_1",
       "to": "Node_2"
     },
     {
+      "id": "null1-2",
       "from": "null_1",
       "to": "Node_1",
       "label": null
     },
     {
+      "id": "2-3",
       "from": "Node_2",
       "to": "Node_3"
     },
     {
+      "id": "null2-2",
       "from": "null_2",
       "to": "Node_2",
       "label": "-> Node 2"
     },
     {
+      "id": "3-4__1",
       "from": "Node_3",
       "to": "Node_4",
       "label": "Node 3 -> Node 4"
     },
     {
+      "id": "3-4__2",
       "from": "Node_3",
       "to": "Node_4",
       "label": "Node 3 -> Node 4"
     },
     {
+      "id": "3-5",
       "from": "Node_3",
       "to": "Node_5",
       "label": "Node 3 -> Node 5"
     },
     {
+      "id": "3-6",
       "from": "Node_3",
       "to": "Node_6",
       "label": "Node 3 -> Node 6"
     },
     {
+      "id": "null-3",
       "from": null,
       "to": "Node_3",
       "label": "-> Node 3"
     },
     {
+      "id": "null-4",
       "from": null,
       "to": "Node_4",
       "label": "-> Node 4"
     },
     {
+      "id": "4-7",
       "from": "Node_4",
       "to": "Node_7",
       "label": "Node 4 -> Node 7"

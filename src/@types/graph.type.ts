@@ -16,6 +16,7 @@ export interface GraphDataNodeInfoItem {
 }
 
 export interface GraphDataEdge {
+  id: string;
   from: string | null;
   to: string | null;
   label?: string | null;

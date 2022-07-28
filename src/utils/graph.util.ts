@@ -51,15 +51,13 @@ export function computeGraph(data: GraphData, nodeStyle: Map<string, NodeStyle>)
 
   // Add edges to the graph
   data.edges.forEach((value) => {
-    if (value.from !== value.to) {
       g.setEdge(String(value.from), String(value.to), {
         label: value.label,
-        key: `${value.from}->${value.to}`.replace(/\s/g, '_'),
+        key: value.id,
         width: getTextWidth(value.label ?? ''),
         height: LETTER_HEIGHT,
         labelpos: 'c',
       });
-    }
   });
 
   dagre.layout(g);
@@ -79,7 +77,7 @@ export function computeGraph(data: GraphData, nodeStyle: Map<string, NodeStyle>)
     };
   });
 
-  const edges = g.edges().map((value) => {
+  const edges = g.edges().map((value): GraphEdge => {
     const edge = g.edge(value);
     let label: GraphEdge['label'] = undefined;
 
