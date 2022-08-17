@@ -10,6 +10,8 @@ export interface IEdgeProps extends GraphEdge {
   stroke?: string;
   strokeWidth?: number;
   clickByEdge?: Callback['onClickByEdge'];
+  enterEdge?: Callback['onEnterEdge'];
+  leaveEdge?: Callback['onLeaveEdge'];
 }
 
 export const edgeNode = NG<IEdgeProps>(function* (params) {
@@ -68,7 +70,13 @@ export const edgeNode = NG<IEdgeProps>(function* (params) {
 
   while (true) {
     params = yield renderNode(
-      <g id={params.key} class="graph-edge" onclick={params.clickByEdge?.(params.key)}>
+      <g
+        id={params.key}
+        class="graph-edge"
+        onclick={params.clickByEdge?.(params.key)}
+        onmouseenter={params.enterEdge?.(params.key)}
+        onmouseleave={params.leaveEdge?.(params.key)}
+      >
         <g class="graph-edge__entity" fill={params.stroke} stroke={params.stroke}>
           <defs>
             <marker id={'markerCircle' + params.key} ref={ref(markerCircleRef)}>

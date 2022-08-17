@@ -82,6 +82,28 @@ EG()(function* () {
     });
   };
 
+  const onEnterEdge = (edgeId: string) => (event: MouseEvent) => {
+    console.log('edgeId', edgeId, 'enter', viewGraphElementRef.value);
+
+    const fromNode = edgeId.at(0)!;
+
+    viewGraphElementRef.value?.shadowRoot?.querySelectorAll('.graph-edge').forEach((it) => {
+      if (it instanceof SVGElement && it.id.startsWith(fromNode)) {
+        it.classList.add('graph-edge_hover');
+      }
+    });
+  };
+
+  const onLeaveEdge = (edgeId: string) => (event: MouseEvent) => {
+    console.log('edgeId', edgeId, 'enter', viewGraphElementRef.value);
+
+    viewGraphElementRef.value?.shadowRoot?.querySelectorAll('.graph-edge').forEach((it) => {
+      if (it instanceof SVGElement) {
+        it.classList.remove('graph-edge_hover');
+      }
+    });
+  };
+
   let graphOverwriteCss = /*css*/ `
     .graph-node, .graph-edge {
       cursor: pointer;
@@ -89,9 +111,15 @@ EG()(function* () {
 
     .graph-edge__label {
       font-style: italic;
+      transition: stroke .2s ease;
     }
 
-    .graph-edge__entity:hover {
+    .graph-edge__entity {
+      font-style: italic;
+      transition: fill .2s ease;
+    }
+
+    .graph-edge_hover > .graph-edge__entity, .graph-edge_hover > .graph-edge__label  {
       fill: black;
       stroke: black;
     }
@@ -99,12 +127,12 @@ EG()(function* () {
 
   setTimeout(() => {
     graphOverwriteCss = /*css*/ `
-    ${graphOverwriteCss}
+      ${graphOverwriteCss}
 
-    #Node_1 text {
-      stroke: green;
-    }
-  `;
+      #Node_1 text {
+        stroke: green;
+      }
+    `;
 
     this.next();
   }, 2000);
@@ -118,7 +146,7 @@ EG()(function* () {
             data={data}
             edgeStyle={'polyline'}
             nodeStyle={nodeStyle}
-            callback={{ onClickByNode, onClickByEdge }}
+            callback={{ onClickByNode, onClickByEdge, onEnterEdge, onLeaveEdge }}
             css={graphOverwriteCss}
           ></ViewGraphElement>
         </>,

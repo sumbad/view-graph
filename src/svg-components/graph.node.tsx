@@ -108,6 +108,8 @@ export const graphNode = NG<IGraphProps>(function* (params) {
             markerScale={3}
             edgeStyle={params.edgeStyle}
             clickByEdge={params.callback?.onClickByEdge}
+            enterEdge={params.callback?.onEnterEdge}
+            leaveEdge={params.callback?.onLeaveEdge}
           />
         );
       });

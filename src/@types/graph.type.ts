@@ -64,4 +64,6 @@ export type ToggleTooltip = (isVisible: boolean, nodeKey: string) => void;
 export interface Callback {
   onClickByNode?: (nodeId: string) => ((event: MouseEvent) => void) | void;
   onClickByEdge?: (edgeId: string) => ((event: MouseEvent) => void) | void;
+  onEnterEdge?: (edgeId: string) => ((event: MouseEvent) => void) | void;
+  onLeaveEdge?: (edgeId: string) => ((event: MouseEvent) => void) | void;
 }
