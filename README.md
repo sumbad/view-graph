@@ -144,6 +144,15 @@ It uses [dagre](https://github.com/dagrejs/dagre) under the hood for lay out dir
 
 ## API
 
+[Callbacks](./src/@types/graph.type.ts):
+
+| Name          | Description                          | Interface                                                 |
+|---------------|--------------------------------------|-----------------------------------------------------------|
+| onClickByNode | Invokes by click on a Node           | (nodeId: string) => ((event: MouseEvent) => void) \| void |
+| onClickByEdge | Invokes by click on an Edge          | (edgeId: string) => ((event: MouseEvent) => void) \| void |
+| onEnterEdge   | Invokes when a cursor enters an Edge | (edgeId: string) => ((event: MouseEvent) => void) \| void |
+| onLeaveEdge   | Invokes when a cursor leaves an Edge | (edgeId: string) => ((event: MouseEvent) => void) \| void |
+
 Set the `callback` property to add a reaction by click on a node or an edge.
 
 For example, you can change styles by click:

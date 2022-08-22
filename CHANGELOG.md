@@ -15,7 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Security -->
 
 <!-- ## Unreleased -->
-## Unreleased
+
+
+## [[0.4.0](https://github.com/sumbad/view-graph/releases/tag/v0.4.0)] - 2022-08-22
 
 ### Added
   + Update Callbacks API, added reactions for entering and leaving edges
