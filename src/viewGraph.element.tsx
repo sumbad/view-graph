@@ -52,6 +52,7 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
     defaultZoom = 1,
     panSensitivity = 1,
     zoomSensitivity = 1,
+    moveSensitivity = 10,
     minZoom = 0.1,
     maxZoom = 10;
 
@@ -125,36 +126,36 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
     startGrabMousePosition = null;
   };
 
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (!e.key.startsWith('Arrow')) {
+      return;
+    }
+
+    switch (e.key) {
+      case 'ArrowRight':
+        translation.x += moveSensitivity / zoom;
+        break;
+      case 'ArrowLeft':
+        translation.x -= moveSensitivity / zoom;
+        break;
+      case 'ArrowDown':
+        translation.y += moveSensitivity / zoom;
+        break;
+      case 'ArrowUp':
+        translation.y -= moveSensitivity / zoom;
+        break;
+    }
+
+    e.preventDefault();
+    updateTransform();
+  };
+
   const updateTransform = () => {
     transform = `translate(${translation.x}px, ${translation.y}px) scale(${zoom})`;
 
     isTooltipVisible = false;
 
     this.next();
-  };
-
-  const initPanZoom = () => {
-    if (mapElement == null) {
-      return;
-    }
-
-    destroy();
-
-    mapElement.addEventListener('mousedown', handleMousedownEvent);
-    mapElement.addEventListener('mousemove', handleMousemoveEvent);
-    mapElement.addEventListener('mouseup', handleMouseupEvent);
-    mapElement.addEventListener('wheel', handleWheelEvent);
-  };
-
-  const destroy = () => {
-    if (mapElement == null) {
-      return;
-    }
-
-    mapElement.removeEventListener('wheel', handleWheelEvent);
-    mapElement.removeEventListener('mousedown', handleMousedownEvent);
-    mapElement.removeEventListener('mousemove', handleMousemoveEvent);
-    mapElement.removeEventListener('mouseup', handleMouseupEvent);
   };
 
   const toggleTooltip: ToggleTooltip = (isVisible, nodeKey) => {
@@ -225,9 +226,32 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
     updateTransform();
   };
 
+  const destroy = () => {
+    if (mapElement == null) {
+      return;
+    }
+
+    mapElement.removeEventListener('wheel', handleWheelEvent);
+    mapElement.removeEventListener('mousedown', handleMousedownEvent);
+    mapElement.removeEventListener('mousemove', handleMousemoveEvent);
+    mapElement.removeEventListener('mouseup', handleMouseupEvent);
+    mapElement.removeEventListener('keydown', handleKeydown);
+  };
+
   requestAnimationFrame(() => {
     mapElement = graphNodeRef.value!;
-    initPanZoom();
+
+    if (mapElement == null) {
+      return;
+    }
+
+    destroy();
+
+    mapElement.addEventListener('mousedown', handleMousedownEvent);
+    mapElement.addEventListener('mousemove', handleMousemoveEvent);
+    mapElement.addEventListener('mouseup', handleMouseupEvent);
+    mapElement.addEventListener('wheel', handleWheelEvent);
+    mapElement.addEventListener('keydown', handleKeydown);
 
     this.next();
   });
@@ -257,7 +281,7 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
       }
 
       params = yield render(
-        <div class="view-graph" ref={ref(graphNodeRef)}>
+        <div class="view-graph" ref={ref(graphNodeRef)} tabindex="0">
           <TooltipElement isVisible={isTooltipVisible} pos={tooltipPos} info={tooltipInfo}></TooltipElement>
           {graph != null ? (
             <Graph

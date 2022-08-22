@@ -40,6 +40,7 @@ div.ico > button > * {
   width: calc(100% - 2rem);
   padding: 1rem;
   cursor: grab;
+  outline: rgb(156 156 156 / 19%) solid;
 
   :active {
     cursor: grabbing;

@@ -83,21 +83,23 @@ EG()(function* () {
   };
 
   const onEnterEdge = (edgeId: string) => (event: MouseEvent) => {
-    console.log('edgeId', edgeId, 'enter', viewGraphElementRef.value);
-
     const fromNode = edgeId.at(0)!;
+    const target = event.target as SVGElement;
+    const viewGraphEl = target.getRootNode() as HTMLElement;
 
-    viewGraphElementRef.value?.shadowRoot?.querySelectorAll('.graph-edge').forEach((it) => {
+    viewGraphEl.querySelectorAll('.graph-edge').forEach((it) => {
       if (it instanceof SVGElement && it.id.startsWith(fromNode)) {
         it.classList.add('graph-edge_hover');
       }
     });
   };
 
-  const onLeaveEdge = (edgeId: string) => (event: MouseEvent) => {
-    console.log('edgeId', edgeId, 'enter', viewGraphElementRef.value);
+  const onLeaveEdge = (_edgeId: string) => (event: MouseEvent) => {
+    const target = event.target as SVGElement;
+    const viewGraphEl = target.getRootNode() as HTMLElement;
+    
 
-    viewGraphElementRef.value?.shadowRoot?.querySelectorAll('.graph-edge').forEach((it) => {
+    viewGraphEl.querySelectorAll('.graph-edge').forEach((it) => {
       if (it instanceof SVGElement) {
         it.classList.remove('graph-edge_hover');
       }

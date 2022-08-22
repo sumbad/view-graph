@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
   + Update Callbacks API, added reactions for entering and leaving edges
-  - Use the arrow keys on the keyboard to move the graph
+  + Use the arrow keys on the keyboard to move the graph
 
 
 ## [[0.3.5 - 0.3.6](https://github.com/sumbad/view-graph/releases/tag/v0.3.6)] - 2022-07-28
