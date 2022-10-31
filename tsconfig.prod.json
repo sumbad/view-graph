@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    // Strict Checks
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+
     "module": "esnext",
     "target": "esnext",
     "allowJs": false,
