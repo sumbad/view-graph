@@ -92,6 +92,8 @@ export const graphNode = NG<IGraphProps>(function* (params) {
             label={value.label}
             styleId={value.styleId}
             clickByNode={params.callback?.onClickByNode}
+            enterNode={params.callback?.onEnterNode}
+            leaveNode={params.callback?.onLeaveNode}
           />
         );
       });

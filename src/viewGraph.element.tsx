@@ -9,6 +9,7 @@ import { computeGraph, getNodeStyleMap, handleZoom } from './utils/graph.util';
 import { tooltipElement } from './tooltip.element';
 import { controlsElement } from './controls.element';
 import style from './style.scss';
+import { ComponentFuncThis } from '@web-companions/gfc/@types';
 
 const defaultNodeStyle: NodeStyle[] = [
   {
@@ -33,6 +34,8 @@ export type ViewGraphElementProps = {
   css?: string;
 };
 
+export type ViewGraphElementType = ComponentFuncThis<ViewGraphElementProps> & { toggleTooltip: ToggleTooltip };
+
 export const viewGraphElement = EG<ViewGraphElementProps>({
   props: {
     data: p.req<GraphData>(),
@@ -41,7 +44,7 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
     callback: p.opt<Callback>(),
     css: p.opt<string>(),
   },
-})(function* (params) {
+})(function* (this: ViewGraphElementType, params) {
   const $ = this.attachShadow({ mode: 'open' });
 
   const graphNodeRef = createRef<HTMLDivElement>();
@@ -194,6 +197,7 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
 
     this.next();
   };
+  this.toggleTooltip = toggleTooltip.bind(this);
 
   const onZoom = (scale: number) => () => {
     transition = 'transform .2s ease-in-out';

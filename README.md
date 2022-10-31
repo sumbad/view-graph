@@ -130,6 +130,23 @@ Or use a content delivery network:
         Overwrite the default styles
       </td>
     </tr>
+    <tr>
+      <td>
+        <code>callback</code>
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        <a href="./src/@types/graph.type.ts">Callback</a>
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        The optional parameter for subscribing and reacting on some events inside the graph
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -144,6 +161,12 @@ It uses [dagre](https://github.com/dagrejs/dagre) under the hood for lay out dir
 
 ## API
 
+[ViewGraphElementType](./src/viewGraph.element.tsx) shows methods that can be used for interact with the main element:
+| Name          | Description                          | Interface                                                 |
+|---------------|--------------------------------------|-----------------------------------------------------------|
+| toggleTooltip | Can be used for showing or hiding nodes' tooltips| (isVisible: boolean, nodeKey: string) => void |
+
+
 [Callbacks](./src/@types/graph.type.ts):
 
 | Name          | Description                          | Interface                                                 |
@@ -152,6 +175,8 @@ It uses [dagre](https://github.com/dagrejs/dagre) under the hood for lay out dir
 | onClickByEdge | Invokes by click on an Edge          | (edgeId: string) => ((event: MouseEvent) => void) \| void |
 | onEnterEdge   | Invokes when a cursor enters an Edge | (edgeId: string) => ((event: MouseEvent) => void) \| void |
 | onLeaveEdge   | Invokes when a cursor leaves an Edge | (edgeId: string) => ((event: MouseEvent) => void) \| void |
+| onEnterNode   | Invokes when a cursor enters an Node | (nodeId: string) => ((event: MouseEvent) => void) \| void |
+| onLeaveNode   | Invokes when a cursor leaves an Node | (nodeId: string) => ((event: MouseEvent) => void) \| void |
 
 Set the `callback` property to add a reaction by click on a node or an edge.
 

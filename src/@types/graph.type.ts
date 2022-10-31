@@ -66,4 +66,6 @@ export interface Callback {
   onClickByEdge?: (edgeId: string) => ((event: MouseEvent) => void) | void;
   onEnterEdge?: (edgeId: string) => ((event: MouseEvent) => void) | void;
   onLeaveEdge?: (edgeId: string) => ((event: MouseEvent) => void) | void;
+  onEnterNode?: (nodeId: string) => ((event: MouseEvent) => void) | void;
+  onLeaveNode?: (nodeId: string) => ((event: MouseEvent) => void) | void;
 }

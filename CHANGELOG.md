@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
+## Unreleased
+
+### Added
+  + The toggleTooltip method can be used for show or hide a tooltip for a graph's node.
+  + Update Callbacks API, added reactions for entering and leaving nodes
+
 ## [[0.4.0](https://github.com/sumbad/view-graph/releases/tag/v0.4.0)] - 2022-08-22
 
 ### Added

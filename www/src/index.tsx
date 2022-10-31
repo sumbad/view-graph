@@ -1,5 +1,5 @@
 import { EG } from '@web-companions/gfc';
-import { viewGraphElement } from '../../src';
+import { viewGraphElement, ViewGraphElementType } from '../../src';
 import { render } from 'lit-html';
 import { createRef, ref } from 'lit-html/directives/ref.js';
 import { NodeStyle } from '../../src/@types/graph.type';
@@ -97,13 +97,37 @@ EG()(function* () {
   const onLeaveEdge = (_edgeId: string) => (event: MouseEvent) => {
     const target = event.target as SVGElement;
     const viewGraphEl = target.getRootNode() as HTMLElement;
-    
 
     viewGraphEl.querySelectorAll('.graph-edge').forEach((it) => {
       if (it instanceof SVGElement) {
         it.classList.remove('graph-edge_hover');
       }
     });
+  };
+
+  const onEnterNode = (nodeId: string) => (event: MouseEvent) => {
+    const viewGraphEl = viewGraphElementRef.value as ViewGraphElementType;
+
+    // Set additional timeout to emulate async operation
+    setTimeout(() => {
+      const nodeById = graphData.nodes.find((n) => n.id === nodeId);
+
+      if (nodeById != null && (nodeById.info == null || nodeById.info.length === 0)) {
+        nodeById.info = [
+          {
+            key: nodeId,
+            value: 'Info data was not found!',
+          },
+        ];
+
+        this.next();
+        viewGraphEl.toggleTooltip(true, nodeId);
+      }
+    }, 1000);
+  };
+
+  const onLeaveNode = (nodeId: string) => (event: MouseEvent) => {
+    console.log('leave', nodeId);
   };
 
   let graphOverwriteCss = /*css*/ `
@@ -148,7 +172,7 @@ EG()(function* () {
             data={data}
             edgeStyle={'polyline'}
             nodeStyle={nodeStyle}
-            callback={{ onClickByNode, onClickByEdge, onEnterEdge, onLeaveEdge }}
+            callback={{ onClickByNode, onClickByEdge, onEnterEdge, onLeaveEdge, onEnterNode, onLeaveNode }}
             css={graphOverwriteCss}
           ></ViewGraphElement>
         </>,

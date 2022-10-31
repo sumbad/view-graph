@@ -6,24 +6,30 @@ import { renderNode } from '../utils/renderNode.directive';
 interface NodeProp extends GraphNode {
   toggleTooltip: ToggleTooltip;
   clickByNode?: Callback['onClickByNode'];
+  enterNode?: Callback['onEnterNode'];
+  leaveNode?: Callback['onLeaveNode'];
 }
 
 export const nodeNode = NG<NodeProp>(function* (params) {
   let isEntered = false;
 
-  const onMouseEnter = () => {
+  const onMouseEnter = (event: MouseEvent) => {
+    params.enterNode?.(params.key)?.(event);
+
     isEntered = true;
     setTimeout(() => {
       isEntered && params.toggleTooltip(isEntered, params.key);
     }, 700);
   };
 
-  const onMouseLeave = () => {
+  const onMouseLeave = (event: MouseEvent) => {
+    params.leaveNode?.(params.key)?.(event);
+
     isEntered = false;
     params.toggleTooltip(isEntered, params.key);
   };
 
-  while (true) {
+  while (true) {    
     params = yield renderNode(
       <g
         class="graph-node"
