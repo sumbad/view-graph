@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ## Unreleased -->
 
 
-## Unreleased
+## [[v0.6.0](https://github.com/sumbad/view-graph/releases/tag/v0.6.0)] - 2022-11-17
 
 ### Added
   + Configuring the Layout with layoutConfig property
