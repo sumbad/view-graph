@@ -10,6 +10,7 @@ import { tooltipElement } from './tooltip.element';
 import { controlsElement } from './controls.element';
 import style from './style.scss';
 import { ComponentFuncThis } from '@web-companions/gfc/@types';
+import { LayoutConfig, ViewGraphElementProps } from './@types/ViewGraphElementProps';
 
 const defaultNodeStyle: NodeStyle[] = [
   {
@@ -26,23 +27,16 @@ const TooltipElement = tooltipElement('view-graph-tooltip');
 const ControlsElement = controlsElement('view-graph-controls');
 const Graph = graphNode();
 
-export type ViewGraphElementProps = {
-  data: GraphData;
-  edgeStyle?: EdgeStyle;
-  nodeStyle?: NodeStyle | NodeStyle[];
-  callback?: Callback;
-  css?: string;
-};
-
 export type ViewGraphElementType = ComponentFuncThis<ViewGraphElementProps> & { toggleTooltip: ToggleTooltip };
 
 export const viewGraphElement = EG<ViewGraphElementProps>({
   props: {
-    data: p.req<GraphData>(),
-    edgeStyle: p.opt<EdgeStyle>(),
-    nodeStyle: p.opt<NodeStyle | NodeStyle[]>(),
-    callback: p.opt<Callback>(),
-    css: p.opt<string>(),
+    data: p.req(),
+    edgeStyle: p.opt(),
+    nodeStyle: p.opt(),
+    callback: p.opt(),
+    css: p.opt(),
+    layoutConfig: p.opt(),
   },
 })(function* (this: ViewGraphElementType, params) {
   const $ = this.attachShadow({ mode: 'open' });
@@ -266,17 +260,23 @@ export const viewGraphElement = EG<ViewGraphElementProps>({
     let graph: ReturnType<typeof computeGraph>;
     let nodeStyle = params.nodeStyle;
     let nodeStyleMap: Map<string, NodeStyle>;
+    let options: Partial<LayoutConfig> | undefined = params.layoutConfig;
 
     setStyle(`${style}\n${graphCss}`, $);
 
     while (true) {
-      if (params.data !== graphData || (params.nodeStyle != null && params.nodeStyle !== nodeStyle)) {
+      if (
+        params.data !== graphData ||
+        (params.nodeStyle != null && params.nodeStyle !== nodeStyle) ||
+        !Object.is(params.layoutConfig, options)
+      ) {
         graphData = params.data;
         nodeStyle = params.nodeStyle;
+        options = params.layoutConfig;
 
         nodeStyleMap = getNodeStyleMap(nodeStyle ?? defaultNodeStyle);
 
-        graph = computeGraph(graphData, nodeStyleMap);
+        graph = computeGraph(graphData, nodeStyleMap, options);
       }
 
       if (!Object.is(params.css, graphCss)) {

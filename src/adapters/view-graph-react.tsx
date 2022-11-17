@@ -7,8 +7,9 @@
  */
 import React, { useRef, useEffect, useImperativeHandle } from 'react';
 import { elementToReact } from '@web-companions/react-adapter';
-import { viewGraphElement, ViewGraphElementProps } from '../viewGraph.element';
+import { viewGraphElement } from '../viewGraph.element';
 import { reactCSSPropertyToInlineStyle } from '../utils/style.util';
+import { ViewGraphElementProps } from '../@types/ViewGraphElementProps';
 
 const ViewGraphElementReact = viewGraphElement('view-graph').adapter(elementToReact);
 

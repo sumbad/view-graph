@@ -35,8 +35,13 @@ export const edgeNode = NG<IEdgeProps>(function* (params) {
 
     let strPath: string = '';
 
-    pointsPath.forEach((element) => {
-      strPath = `${strPath}${element.x ?? 0},${element.y ?? 0} `;
+    pointsPath.forEach((point) => {
+      let pathPoint: string = '';
+      if(!Number.isNaN(point.x) && !Number.isNaN(point.y)) {
+        pathPoint = `${String(point.x ?? 0)},${String(point.y ?? 0)}`;
+      }
+
+      strPath = `${strPath}${pathPoint} `;
     });
 
     return strPath;

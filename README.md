@@ -4,12 +4,9 @@
   <img src="https://img.shields.io/npm/v/view-graph.svg?logo=npm" alt="Last npm Registry Version">
 </a>
 
-
-This project allows automatically render graphs for visualization and analysis. Enjoy exploring graphs directly in the web browser. 
+This project allows automatically render graphs for visualization and analysis. Enjoy exploring graphs directly in the web browser.
 
 The `view-graph` takes descriptions of graphs in a simple JSON format, and makes diagrams in automatic mode.
-
-
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -21,7 +18,6 @@ The `view-graph` takes descriptions of graphs in a simple JSON format, and makes
 ```
 npm install view-graph lit-html --save
 ```
-
 
 Or use a content delivery network:
 
@@ -45,9 +41,7 @@ Or use a content delivery network:
 
 ---
 
-
 ## Options
-
 
 <table>
   <thead>
@@ -147,30 +141,47 @@ Or use a content delivery network:
         The optional parameter for subscribing and reacting on some events inside the graph
       </td>
     </tr>
+    <tr>
+      <td>
+        <code>layoutConfig</code>
+      </td>
+      <td>
+        -
+      </td>
+      <td>
+        <a href="./src/@types/ViewGraphElementProps.ts">LayoutConfig</a>
+      </td>
+      <td>
+<pre><code>{
+  ranker: 'tight-tree',
+  rankdir: 'LR',
+  ranksep: "the longest label" + 50
+}</code></pre>
+      </td>
+      <td>
+        A layout can be configured by setting the properties in layoutConfig object
+      </td>
+    </tr>
   </tbody>
 </table>
 
 ---
 
-
-
 It uses [dagre](https://github.com/dagrejs/dagre) under the hood for lay out directed graphs.
-
 
 ---
 
 ## API
 
 [ViewGraphElementType](./src/viewGraph.element.tsx) shows methods that can be used for interact with the main element:
-| Name          | Description                          | Interface                                                 |
+| Name | Description | Interface |
 |---------------|--------------------------------------|-----------------------------------------------------------|
 | toggleTooltip | Can be used for showing or hiding nodes' tooltips| (isVisible: boolean, nodeKey: string) => void |
-
 
 [Callbacks](./src/@types/graph.type.ts):
 
 | Name          | Description                          | Interface                                                 |
-|---------------|--------------------------------------|-----------------------------------------------------------|
+| ------------- | ------------------------------------ | --------------------------------------------------------- |
 | onClickByNode | Invokes by click on a Node           | (nodeId: string) => ((event: MouseEvent) => void) \| void |
 | onClickByEdge | Invokes by click on an Edge          | (edgeId: string) => ((event: MouseEvent) => void) \| void |
 | onEnterEdge   | Invokes when a cursor enters an Edge | (edgeId: string) => ((event: MouseEvent) => void) \| void |
@@ -226,7 +237,6 @@ For example, you can change styles by click:
 
 
 ```
-
 
 ---
 

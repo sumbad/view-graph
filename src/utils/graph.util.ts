@@ -1,5 +1,6 @@
 import * as dagre from 'dagre';
 import { GraphData, GraphEdge, GraphNode, NodeStyle, Translation } from '../@types/graph.type';
+import { LayoutConfig } from '../@types/ViewGraphElementProps';
 
 // TODO: calculate based on font size
 const LETTER_WIDTH = 12 as const;
@@ -7,7 +8,11 @@ const LETTER_HEIGHT = 19 as const;
 
 export const GRAPH_NODE_DEFAULT_ID = 'graphNode' as const;
 
-export function computeGraph(data: GraphData, nodeStyle: Map<string, NodeStyle>): { nodes: GraphNode[]; edges: GraphEdge[] } | undefined {
+export function computeGraph(
+  data: GraphData,
+  nodeStyle: Map<string, NodeStyle>,
+  layoutConfig?: Partial<LayoutConfig>
+): { nodes: GraphNode[]; edges: GraphEdge[] } | undefined {
   if (data == null) {
     return;
   }
@@ -29,7 +34,8 @@ export function computeGraph(data: GraphData, nodeStyle: Map<string, NodeStyle>)
     ranker: 'tight-tree',
     rankdir: 'LR',
     ranksep: longestLabel + 50,
-  } as any);
+    ...layoutConfig,
+  });
 
   // Default to assigning a new object as a label for each new edge.
   g.setDefaultEdgeLabel(function () {
@@ -51,13 +57,24 @@ export function computeGraph(data: GraphData, nodeStyle: Map<string, NodeStyle>)
 
   // Add edges to the graph
   data.edges.forEach((value) => {
-      g.setEdge(String(value.from), String(value.to), {
-        label: value.label,
-        key: value.id,
-        width: getTextWidth(value.label ?? ''),
-        height: LETTER_HEIGHT,
-        labelpos: 'c',
-      });
+    // Add unknown nodes to prevent NaN inside points array for edges
+    // @see https://github.com/dagrejs/dagre/issues/165
+    for (const n of [value.from, value.to]) {
+      if (!g.hasNode(String(n))) {
+        g.setNode(String(n), {
+          width: 1,
+          height: 1,
+        });
+      }
+    }
+
+    g.setEdge(String(value.from), String(value.to), {
+      label: value.label,
+      key: value.id,
+      width: getTextWidth(value.label ?? ''),
+      height: LETTER_HEIGHT,
+      labelpos: 'c',
+    });
   });
 
   dagre.layout(g);

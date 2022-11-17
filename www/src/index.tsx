@@ -105,8 +105,11 @@ EG()(function* () {
     });
   };
 
+  let isShowingNodeId: string | null = null;
+
   const onEnterNode = (nodeId: string) => (event: MouseEvent) => {
     const viewGraphEl = viewGraphElementRef.value as ViewGraphElementType;
+    isShowingNodeId = nodeId;
 
     // Set additional timeout to emulate async operation
     setTimeout(() => {
@@ -120,13 +123,17 @@ EG()(function* () {
           },
         ];
 
-        this.next();
-        viewGraphEl.toggleTooltip(true, nodeId);
+        this.next(); // this line depends on a framework or your library for creating components
+        
+        if (isShowingNodeId === nodeId) {
+          viewGraphEl.toggleTooltip(true, nodeId);
+        }
       }
     }, 1000);
   };
 
   const onLeaveNode = (nodeId: string) => (event: MouseEvent) => {
+    isShowingNodeId = null;
     console.log('leave', nodeId);
   };
 
