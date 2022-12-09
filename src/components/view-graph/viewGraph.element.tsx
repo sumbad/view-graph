@@ -3,14 +3,14 @@ import { setStyle } from '@web-companions/h';
 import { render } from 'lit-html';
 import { ref, createRef } from 'lit-html/directives/ref.js';
 
-import { graphNode } from './svg-components/graph.node';
-import { EdgeStyle, GraphData, GraphDataNodeInfoItem, NodeStyle, Callback, ToggleTooltip, Translation } from './@types/graph.type';
-import { computeGraph, getNodeStyleMap, handleZoom } from './utils/graph.util';
-import { tooltipElement } from './tooltip.element';
-import { controlsElement } from './controls.element';
+import { graphNode } from '../../svg-components/graph.node';
+import { EdgeStyle, GraphData, GraphDataNodeInfoItem, NodeStyle, Callback, ToggleTooltip, Translation } from '../../@types/graph.type';
+import { computeGraph, getNodeStyleMap, handleZoom } from '../../utils/graph.util';
+import { tooltipElement } from '../tooltip/tooltip.element';
+import { controlsElement } from '../controls/controls.element';
 import style from './style.scss';
 import { ComponentFuncThis } from '@web-companions/gfc/@types';
-import { LayoutConfig, ViewGraphElementProps } from './@types/ViewGraphElementProps';
+import { LayoutConfig, ViewGraphElementProps } from '../../@types/ViewGraphElementProps';
 
 const defaultNodeStyle: NodeStyle[] = [
   {

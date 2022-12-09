@@ -1,1 +1,1 @@
-export * from './viewGraph.element';
+export * from './components/view-graph/viewGraph.element';

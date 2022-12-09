@@ -1,7 +1,7 @@
 import { EG, p } from '@web-companions/gfc';
 import { css } from '@web-companions/h';
 import { render } from 'lit-html';
-import { GraphDataNodeInfoItem } from './@types/graph.type';
+import { GraphDataNodeInfoItem } from '../../@types/graph.type';
 
 export const tooltipElement = EG({
   props: {
