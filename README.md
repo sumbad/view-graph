@@ -6,6 +6,8 @@
 
 This project allows automatically render graphs for visualization and analysis. Enjoy exploring graphs directly in the web browser.
 
+[The demo stand](https://sumbad.github.io/view-graph/)
+
 The `view-graph` takes descriptions of graphs in a simple JSON format, and makes diagrams in automatic mode.
 
 - [Installation](#installation)

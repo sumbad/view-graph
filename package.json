@@ -38,7 +38,7 @@
     "test:ci": "CI=true npm run dev:build && playwright test && nyc report --reporter=lcov",
     "test:report": "open ./coverage/index.html",
     "test:debug": "PWDEBUG=1 npm run test",
-    "deploy": "NODE_ENV=production rollup -c --configMode=prod && node ./scripts/.gh-pages"
+    "deploy": "NODE_ENV=production rollup -c --configMode=prod && node ./scripts/.gh-pages.mjs"
   },
   "keywords": [
     "web component",
