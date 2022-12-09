@@ -6,12 +6,20 @@
     "strictFunctionTypes": true,
 
     "module": "esnext",
-    "target": "ES2020",
+    "target": "esnext",
     "allowJs": false,
-    "rootDir": "./www",
-    "outDir": "./www",
+    "inlineSources": true,
+    "declaration": true,
+    "declarationDir": "./lib",
+    "rootDir": "./src",
+    "outDir": "./lib",
     "strict": true,
     "esModuleInterop": true,
     "jsx": "preserve"
-  }
+  },
+  "exclude": [
+    "www",
+    "tests",
+    "playwright.config.ts"
+  ]
 }

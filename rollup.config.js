@@ -1,3 +1,4 @@
+import { InputOptions } from 'rollup';
 import path from 'path';
 
 import typescriptPlugin from 'rollup-plugin-typescript2';
@@ -18,22 +19,21 @@ import { DEFAULT_EXTENSIONS } from '@babel/core';
 
 const atImport = require('postcss-import');
 
-// `npm run build` -> `production` is true
-// `npm run dev` -> `production` is false
-const production = process.env.NODE_ENV != null ? process.env.NODE_ENV === 'production' : !process.env.ROLLUP_WATCH;
+/** @type {'dev' | 'lib' | 'prod'} */
+let mode = 'dev';
 
-const plug = {
+const plugins = {
   replace: replace({
-    'process.env.NODE_ENV': production ? JSON.stringify('production') : JSON.stringify('development'),
+    'process.env.NODE_ENV': process.env.NODE_ENV === 'development' ? JSON.stringify('development') : JSON.stringify('production'),
     preventAssignment: true,
   }),
   resolve: resolve(),
   ts: typescriptPlugin({
-    tsconfig: `./tsconfig.${production ? 'prod' : 'dev'}.json`,
+    tsconfig: `./tsconfig.${mode}.json`,
     useTsconfigDeclarationDir: true,
   }),
   ts_skip_dts: typescriptPlugin({
-    tsconfig: `./tsconfig.${production ? 'prod' : 'dev'}.json`,
+    tsconfig: `./tsconfig.${mode}.json`,
     useTsconfigDeclarationDir: true,
     tsconfigOverride: {
       compilerOptions: {
@@ -79,6 +79,7 @@ const plug = {
   ],
 };
 
+/** @type InputOptions */
 const DEV = {
   input: './www/src/index.tsx',
   output: {
@@ -91,17 +92,18 @@ const DEV = {
     },
   },
   plugins: [
-    plug.replace, //
-    plug.resolve,
-    plug.commonjs,
-    plug.json,
-    plug.ts,
-    plug.babel,
-    plug.postcss,
+    plugins.replace, //
+    plugins.resolve,
+    plugins.commonjs,
+    plugins.json,
+    plugins.ts,
+    plugins.babel,
+    plugins.postcss,
   ],
 };
 
-const PROD = {
+/** @type InputOptions */
+const LIB = {
   input: './src/index.ts',
   output: {
     file: './lib/index.es.js',
@@ -109,22 +111,23 @@ const PROD = {
     sourcemap: true,
   },
   plugins: [
-    plug.replace,
-    plug.resolve,
-    plug.commonjs,
-    plug.json,
-    plug.ts,
-    plug.babel,
-    plug.postcss,
-    ...plug.minify,
+    plugins.replace,
+    plugins.resolve,
+    plugins.commonjs,
+    plugins.json,
+    plugins.ts,
+    plugins.babel,
+    plugins.postcss,
+    ...plugins.minify,
     // visualizer(),
   ],
   // indicate which modules should be treated as external
   external: [/lit-html/, 'react', '@web-companions/react-adapter'],
 };
 
-const PROD_IIFE = {
-  ...PROD,
+/** @type InputOptions */
+const LIB_IIFE = {
+  ...LIB,
   output: {
     file: './lib/index.js',
     format: 'iife',
@@ -132,19 +135,20 @@ const PROD_IIFE = {
     sourcemap: true,
   },
   plugins: [
-    plug.replace, //
-    plug.resolve,
-    plug.commonjs,
-    plug.json,
-    plug.ts_skip_dts,
-    plug.babel,
-    plug.postcss,
-    ...plug.minify,
+    plugins.replace, //
+    plugins.resolve,
+    plugins.commonjs,
+    plugins.json,
+    plugins.ts_skip_dts,
+    plugins.babel,
+    plugins.postcss,
+    ...plugins.minify,
   ],
   external: ['react', '@web-companions/react-adapter'],
 };
 
-export const PROD_REACT_ADAPTER = {
+/** @type InputOptions */
+const LIB_REACT_ADAPTER = {
   input: './src/adapters/view-graph-react.tsx',
   output: [
     {
@@ -154,23 +158,50 @@ export const PROD_REACT_ADAPTER = {
     },
   ],
   plugins: [
-    plug.replace, //
-    plug.resolve,
-    plug.commonjs,
-    plug.json,
-    plug.ts_skip_dts,
-    plug.babel,
-    plug.postcss,
-    ...plug.minify,
+    plugins.replace, //
+    plugins.resolve,
+    plugins.commonjs,
+    plugins.json,
+    plugins.ts_skip_dts,
+    plugins.babel,
+    plugins.postcss,
+    ...plugins.minify,
   ],
   // indicate which modules should be treated as external
   external: [/lit-html/, 'react'],
 };
 
-export default production
-  ? [
-      PROD, 
-      PROD_IIFE,
-      PROD_REACT_ADAPTER,
-    ]
-  : [DEV];
+/** @type InputOptions */
+const WWW = {
+  input: './www/src/index.tsx',
+  output: {
+    dir: './www',
+    format: 'iife', // immediately-invoked function expression — suitable for <script> tags
+  },
+  plugins: [
+    plugins.replace, //
+    plugins.resolve,
+    plugins.commonjs,
+    plugins.json,
+    plugins.ts,
+    plugins.babel,
+    plugins.postcss,
+    ...plugins.minify
+  ],
+};
+
+export default (commandLineArgs) => {
+  console.log('CONFIG MODE', commandLineArgs.configMode);
+
+  mode = commandLineArgs.configMode ?? mode;
+
+
+  switch (mode) {
+    case 'prod':
+      return [WWW];
+    case 'dev':
+      return [DEV];
+    case 'lib':
+      return [LIB, LIB_IIFE, LIB_REACT_ADAPTER];
+  }
+};
